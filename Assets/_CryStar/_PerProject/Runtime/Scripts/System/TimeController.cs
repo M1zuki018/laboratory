@@ -1,5 +1,6 @@
 using System;
 using CryStar.Core;
+using CryStar.Core.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -66,9 +67,10 @@ namespace CryStar.PerProject
         /// </summary>
         public string GetTimeText => _currentTime.ToString("yyyy/MM/dd HH:mm");
 
-        public override async UniTask OnStart()
+        public override async UniTask OnAwake()
         {
-            await base.OnStart();
+            await base.OnAwake();
+            ServiceLocator.Register(this, ServiceType.Local);
             _currentTime = new DateTime(2027, 2, 17, 9, 0, 0);
         }
         
