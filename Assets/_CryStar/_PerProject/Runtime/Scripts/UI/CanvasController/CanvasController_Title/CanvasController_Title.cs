@@ -4,6 +4,7 @@ using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using iCON.System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace iCON.UI
 {
@@ -13,6 +14,10 @@ namespace iCON.UI
     public partial class CanvasController_Title : WindowBase
     {
         [SerializeField, HighlightIfNull] private CustomButton _startButton;
+        [SerializeField] private Text _version;
+        
+        [Header("データ")]
+        [SerializeField] private ProductDataSO _productDataSO;
         
         public event Action OnStartButtonClicked;
         
@@ -20,12 +25,18 @@ namespace iCON.UI
         {
             // イベント登録
             if(_startButton != null) _startButton.onClick.AddListener(HandleStartButtonClicked);
+
+            if (_version != null)
+            {
+                // バージョンテキスト書き換え
+                _version.text = $"version {_productDataSO.GetFullVersionString()}";
+            }
+            
             return base.OnAwake();
         }
 
         private void HandleStartButtonClicked()
         {
-            ServiceLocator.GetGlobal<SceneLoader>().LoadSceneAsync(new SceneTransitionData(SceneType.InGame, true)).Forget();
             OnStartButtonClicked?.Invoke();
         }
 
