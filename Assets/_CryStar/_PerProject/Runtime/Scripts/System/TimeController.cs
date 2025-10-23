@@ -4,6 +4,7 @@ using CryStar.Core;
 using CryStar.Core.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CryStar.PerProject
 {
@@ -32,7 +33,7 @@ namespace CryStar.PerProject
         /// </summary>
         public event Action<bool> OnPause;
         
-        [SerializeField, Comment("更新インターバル")] private float _updateInterval = 2f;
+        [SerializeField, Comment("更新インターバル")] private float _defalutUpdateInterval = 2f;
         [SerializeField, Comment("早送り時の更新インターバル")]　private float _fastUpdateInterval = 1f;
         
         private const int WORK_START_HOUR = 9; // 1日の行動開始時間
@@ -41,6 +42,7 @@ namespace CryStar.PerProject
         private const int DAY_END_HOUR = 23; // 夜の行動終了時間
         private const int MINUTES_PER_UPDATE = 10; // 1更新ごとに進む時間。単位は分
         
+        private float _updateInterval; // 更新インターバル
         private float _elapsedTime; // 経過時間
         private DateTime _currentTime; // 現在の時間
 
@@ -77,36 +79,16 @@ namespace CryStar.PerProject
         /// </summary>
         public string GetTimeText => _currentTime.ToString("yyyy/MM/dd HH:mm");
 
+        #region Life cycle
+
         public override async UniTask OnAwake()
         {
             await base.OnAwake();
             ServiceLocator.Register(this, ServiceType.Local);
             _currentTime = new DateTime(2027, 2, 17, 9, 0, 0);
-        }
-
-        /// <summary>
-        /// ポーズ。現在ポーズ中であれば、ポーズ状態を解除する
-        /// </summary>
-        public void Pause()
-        {
-            _isPausing = !_isPausing;
-            OnPause?.Invoke(_isPausing);
-        }
-
-        /// <summary>
-        /// 早送り。現在早送り中であれば、早送り状態を解除する
-        /// </summary>
-        public void FastForward()
-        {
             
-        }
-
-        /// <summary>
-        /// スキップ
-        /// </summary>
-        public void Skip()
-        {
-            
+            // 更新インターバルは初期値はデフォルトで設定
+            _updateInterval = _defalutUpdateInterval;
         }
         
         private void Update()
@@ -124,6 +106,38 @@ namespace CryStar.PerProject
                 AdvanceTime();
                 _elapsedTime = 0;
             }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// ポーズ。現在ポーズ中であれば、ポーズ状態を解除する
+        /// </summary>
+        public void Pause()
+        {
+            _isPausing = !_isPausing;
+            OnPause?.Invoke(_isPausing);
+        }
+
+        /// <summary>
+        /// 早送り。現在早送り中であれば、早送り状態を解除する
+        /// </summary>
+        public void FastForward()
+        {
+            _isFastUpdate = !_isFastUpdate;
+            
+            // 早送り中であれば早送り中の更新インターバルを、早送り中でなければデフォルトの更新インターバルを適用
+            _updateInterval = _isFastUpdate ? _fastUpdateInterval : _defalutUpdateInterval;
+            
+            Debug.Log(_updateInterval);
+        }
+
+        /// <summary>
+        /// スキップ
+        /// </summary>
+        public void Skip()
+        {
+            
         }
 
         /// <summary>
