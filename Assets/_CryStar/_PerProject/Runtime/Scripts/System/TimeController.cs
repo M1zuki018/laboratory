@@ -1,4 +1,5 @@
 using System;
+using CryStar.Attribute;
 using CryStar.Core;
 using CryStar.Core.Enums;
 using Cysharp.Threading.Tasks;
@@ -25,8 +26,14 @@ namespace CryStar.PerProject
         /// 1日終了を通知するコールバック
         /// </summary>
         public event Action OnFinishDay;
+
+        /// <summary>
+        /// ポーズ状態が切り替わったときのコールバック
+        /// </summary>
+        public event Action<bool> OnPause;
         
-        [SerializeField] private float _updateInterval = 2f;
+        [SerializeField, Comment("更新インターバル")] private float _updateInterval = 2f;
+        [SerializeField, Comment("早送り時の更新インターバル")]　private float _fastUpdateInterval = 1f;
         
         private const int WORK_START_HOUR = 9; // 1日の行動開始時間
         private const int WORK_END_HOUR = 18; // 夕方の行動終了時間
@@ -37,6 +44,9 @@ namespace CryStar.PerProject
         private float _elapsedTime; // 経過時間
         private DateTime _currentTime; // 現在の時間
 
+        private bool _isPausing; // ポーズ中
+        private bool _isFastUpdate; // 早送り中
+        
         /// <summary>
         /// 年
         /// </summary>
@@ -73,9 +83,40 @@ namespace CryStar.PerProject
             ServiceLocator.Register(this, ServiceType.Local);
             _currentTime = new DateTime(2027, 2, 17, 9, 0, 0);
         }
+
+        /// <summary>
+        /// ポーズ。現在ポーズ中であれば、ポーズ状態を解除する
+        /// </summary>
+        public void Pause()
+        {
+            _isPausing = !_isPausing;
+            OnPause?.Invoke(_isPausing);
+        }
+
+        /// <summary>
+        /// 早送り。現在早送り中であれば、早送り状態を解除する
+        /// </summary>
+        public void FastForward()
+        {
+            
+        }
+
+        /// <summary>
+        /// スキップ
+        /// </summary>
+        public void Skip()
+        {
+            
+        }
         
         private void Update()
         {
+            if (_isPausing)
+            {
+                // ポーズ中であればreturn
+                return;
+            }
+
             _elapsedTime += Time.deltaTime;
             
             if (_elapsedTime >= _updateInterval)
