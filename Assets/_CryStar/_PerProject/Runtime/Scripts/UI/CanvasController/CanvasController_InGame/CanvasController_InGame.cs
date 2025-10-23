@@ -5,6 +5,7 @@ using CryStar.PerProject;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace iCON.UI
@@ -12,22 +13,24 @@ namespace iCON.UI
     /// <summary>
     /// CanvasController_InGame
     /// </summary>
-    public partial class CanvasController_InGame : WindowBase
+    public class CanvasController_InGame : WindowBase
     {
-        [SerializeField, HighlightIfNull] private CustomButton _button;
+        [SerializeField, HighlightIfNull] private Button _pauseButton;
+        [SerializeField, HighlightIfNull] private Button _fastUpdateButton;
+        [SerializeField, HighlightIfNull] private Button _skipButton;
         [SerializeField] private Text _date;
         
         /// <summary>
         /// 時間管理クラス
         /// </summary>
         private TimeManager _timeManager;
-        
-        public event Action OnButtonClicked;
                 
         public override UniTask OnAwake()
         {
             // イベント登録
-            if(_button != null) _button.onClick.AddListener(Temporary);
+            if(_pauseButton != null) _pauseButton.onClick.AddListener(HandleClickPauseButton);
+            if(_fastUpdateButton != null) _fastUpdateButton.onClick.AddListener(HandleClickFastUpdateButton);
+            if(_skipButton != null) _skipButton.onClick.AddListener(HandleClickSkipButton);
             
             return base.OnAwake();
         }
@@ -50,11 +53,39 @@ namespace iCON.UI
             _date.text = _timeManager.GetTimeText;
         }
         
-        
-        private void Temporary()
+        /// <summary>
+        /// ポーズボタンを押したときの処理
+        /// </summary>
+        private void HandleClickPauseButton()
         {
+            if (_timeManager != null)
+            {
+                _timeManager.TogglePause();
+            }
         }
 
+        /// <summary>
+        /// 早送りボタンを押したときの処理
+        /// </summary>
+        private void HandleClickFastUpdateButton()
+        {
+            if (_timeManager != null)
+            {
+                _timeManager.ToggleFastForward();
+            }
+        }
+
+        /// <summary>
+        /// スキップボタンを押したときの処理
+        /// </summary>
+        private void HandleClickSkipButton()
+        {
+            if (_timeManager != null)
+            {
+                _timeManager.SkipToNextEvent();
+            }
+        }
+        
         /// <summary>
         /// 日時の表記を更新する
         /// </summary>
@@ -68,7 +99,9 @@ namespace iCON.UI
         
         private void OnDestroy()
         {
-            if(_button != null) _button.onClick?.RemoveAllListeners();
+            if(_pauseButton != null) _pauseButton.onClick?.RemoveAllListeners();
+            if(_fastUpdateButton != null) _fastUpdateButton.onClick?.RemoveAllListeners();
+            if(_skipButton != null) _skipButton.onClick?.RemoveAllListeners();
             if(_timeManager != null) _timeManager.OnTimeChanged -= UpdateDateText;
         }
     }
