@@ -137,7 +137,19 @@ namespace CryStar.PerProject
         /// </summary>
         public void Skip()
         {
+            // 夕方イベントの発生時刻よりも現在時刻が早い場合は、夕方イベントまでの時間をスキップする
+            if (_currentTime.Hour < EVENING_BREAK_END_HOUR)
+            {
+                _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, WORK_END_HOUR, 0, 0);
+                
+                // イベントを呼び出すために、現在時刻の確認メソッドを呼び出し
+                CheckTimeEvents();
+                return;
+            }
             
+            // 1日の終了までスキップする
+            _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, DAY_END_HOUR, 0, 0);
+            CheckTimeEvents();
         }
 
         /// <summary>
