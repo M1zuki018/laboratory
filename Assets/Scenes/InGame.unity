@@ -991,6 +991,7 @@ GameObject:
   m_Component:
   - component: {fileID: 867529870}
   - component: {fileID: 867529869}
+  - component: {fileID: 867529871}
   m_Layer: 0
   m_Name: LifecycleController
   m_TagString: Untagged
@@ -1036,6 +1037,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &867529871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867529868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a246f24f79ca24a8d44edc35436ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioListener: {fileID: 519420029}
+  _eventSystem: {fileID: 1202118427}
 --- !u!1001 &962839025
 PrefabInstance:
   m_ObjectHideFlags: 0
