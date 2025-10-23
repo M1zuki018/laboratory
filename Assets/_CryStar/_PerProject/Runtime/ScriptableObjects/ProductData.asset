@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ProductData
   m_EditorClassIdentifier: 
   _version: 1.0.0
-  _buildNumber: 003
-  _appName: iCON
+  _buildNumber: 001
+  _appName: EtoileDeLAube
   _snsUrl: 
   _isDebugMode: 0
   _targetFrameRate: 60
