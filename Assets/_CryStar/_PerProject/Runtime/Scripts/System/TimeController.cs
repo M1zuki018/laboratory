@@ -4,7 +4,6 @@ using CryStar.Core;
 using CryStar.Core.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CryStar.PerProject
 {
@@ -111,44 +110,31 @@ namespace CryStar.PerProject
         #endregion
 
         /// <summary>
-        /// ポーズ。現在ポーズ中であれば、ポーズ状態を解除する
+        /// ポーズ状態をトグルする
         /// </summary>
-        public void Pause()
+        public void TogglePause()
         {
             _isPausing = !_isPausing;
             OnPause?.Invoke(_isPausing);
         }
 
         /// <summary>
-        /// 早送り。現在早送り中であれば、早送り状態を解除する
+        /// 早送り状態をトグルする
         /// </summary>
-        public void FastForward()
+        public void ToggleFastForward()
         {
             _isFastUpdate = !_isFastUpdate;
             
             // 早送り中であれば早送り中の更新インターバルを、早送り中でなければデフォルトの更新インターバルを適用
             _updateInterval = _isFastUpdate ? _fastUpdateInterval : _defalutUpdateInterval;
-            
-            Debug.Log(_updateInterval);
         }
 
         /// <summary>
-        /// スキップ
+        /// 次のイベント時刻までスキップする
         /// </summary>
-        public void Skip()
+        public void SkipToNextEvent()
         {
-            // 夕方イベントの発生時刻よりも現在時刻が早い場合は、夕方イベントまでの時間をスキップする
-            if (_currentTime.Hour < EVENING_BREAK_END_HOUR)
-            {
-                _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, WORK_END_HOUR, 0, 0);
-                
-                // イベントを呼び出すために、現在時刻の確認メソッドを呼び出し
-                CheckTimeEvents();
-                return;
-            }
-            
-            // 1日の終了までスキップする
-            _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, DAY_END_HOUR, 0, 0);
+            _currentTime = GetNextEventTime();
             CheckTimeEvents();
         }
 
@@ -181,6 +167,27 @@ namespace CryStar.PerProject
                 // 翌日の朝へ
                 _currentTime = _currentTime.Date.AddDays(1).AddHours(WORK_START_HOUR);
             }
+        }
+        
+        /// <summary>
+        /// 次のイベント発生時刻を取得する
+        /// </summary>
+        private DateTime GetNextEventTime()
+        {
+            // 現在時刻が作業時間内であれば夕方イベントまで
+            if (_currentTime.Hour < WORK_END_HOUR)
+            {
+                return new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, WORK_END_HOUR, 0, 0);
+            }
+        
+            // それ以外は1日の終了まで
+            if (_currentTime.Hour < DAY_END_HOUR)
+            {
+                return new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, DAY_END_HOUR, 0, 0);
+            }
+        
+            // 既に1日が終了している場合
+            return default;
         }
     }
 }
