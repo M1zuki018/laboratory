@@ -1,4 +1,6 @@
 using System;
+using CryStar.Core;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace CryStar.PerProject
@@ -6,7 +8,7 @@ namespace CryStar.PerProject
     /// <summary>
     /// ゲーム内時間を管理するクラス
     /// </summary>
-    public class TimeController
+    public class TimeController : CustomBehaviour
     {
         /// <summary>
         /// 時間が変わったタイミングで呼び出されるコールバック
@@ -23,13 +25,14 @@ namespace CryStar.PerProject
         /// </summary>
         public event Action OnFinishDay;
         
+        [SerializeField] private float _updateInterval = 2f;
+        
         private const int WORK_START_HOUR = 9; // 1日の行動開始時間
         private const int WORK_END_HOUR = 18; // 夕方の行動終了時間
         private const int EVENING_BREAK_END_HOUR = 20; // 夜の行動開始時間
         private const int DAY_END_HOUR = 23; // 夜の行動終了時間
         private const int MINUTES_PER_UPDATE = 10; // 1更新ごとに進む時間。単位は分
         
-        private readonly float _updateInterval; // ゲーム内時間の更新インターバル（TODO: 最終的には定数にしたい）
         private float _elapsedTime; // 経過時間
         private DateTime _currentTime; // 現在の時間
 
@@ -63,16 +66,13 @@ namespace CryStar.PerProject
         /// </summary>
         public string GetTimeText => _currentTime.ToString("yyyy/MM/dd HH:mm");
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public TimeController(float updateInterval)
+        public override async UniTask OnStart()
         {
-            _updateInterval = updateInterval;
+            await base.OnStart();
             _currentTime = new DateTime(2027, 2, 17, 9, 0, 0);
         }
         
-        public void Update()
+        private void Update()
         {
             _elapsedTime += Time.deltaTime;
             
