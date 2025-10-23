@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3732490702620950082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4671919138503708403}
+  - component: {fileID: 5549733900600685336}
+  m_Layer: 0
+  m_Name: SheetsDataService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4671919138503708403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3732490702620950082}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5549733900600685336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3732490702620950082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf38a76fbaa93242a63f69f92702877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _apiSettings: {fileID: 11400000, guid: 919ee7d9b8cc143469a133a690a47352, type: 2}
+  _spreadsheetConfigs:
+  - _name: TestStory
+    _spreadsheetId: 1qsxU9Hq4Gn-M34rQDci4meN1TTwuuqCYVHDFCCFptgY
+    _description: "\u30B9\u30C8\u30FC\u30EA\u30FC\u518D\u751F\u7528\u306E\u30B9\u30D7\u30EC\u30C3\u30C9\u30B7\u30FC\u30C8"
+  - _name: WordingMaster
+    _spreadsheetId: 1ItGwkW6CEC4Xtr9tYC9jwmB9AGCPp-1KrfJ8VwnBXnI
+    _description: "\u6587\u8A00\u30AD\u30FC\u3092\u7BA1\u7406\u3059\u308B\u30B9\u30D7\u30EC\u30C3\u30C9\u30B7\u30FC\u30C8"
+  - _name: IdeaMaster
+    _spreadsheetId: 1UrtVXKPnP5RN2lWyW5S8hTCpPeRzS6va_HXxnWv80lo
+    _description: "\u30A2\u30A4\u30C7\u30A2\uFF08\u30B9\u30AD\u30EB\uFF09\u60C5\u5831\u3092\u7BA1\u7406\u3059\u308B\u30B9\u30D7\u30EC\u30C3\u30C9\u30B7\u30FC\u30C8"
