@@ -9,7 +9,7 @@ namespace CryStar.PerProject
     /// <summary>
     /// ゲーム内時間を管理するクラス
     /// </summary>
-    public class TimeController : CustomBehaviour
+    public class TimeManager : CustomBehaviour
     {
         /// <summary>
         /// 時間が変わったタイミングで呼び出されるコールバック

@@ -20,7 +20,7 @@ namespace iCON.UI
         /// <summary>
         /// 時間管理クラス
         /// </summary>
-        private TimeController _timeController;
+        private TimeManager _timeManager;
         
         public event Action OnButtonClicked;
                 
@@ -35,19 +35,19 @@ namespace iCON.UI
         public override async UniTask OnBind()
         {
             await base.OnBind();
-            _timeController = ServiceLocator.GetLocal<TimeController>();
-            if (_timeController == null)
+            _timeManager = ServiceLocator.GetLocal<TimeManager>();
+            if (_timeManager == null)
             {
                 // 正常に取得できなかった場合はエラーログを出したうえで
                 // テキストが表示されないようにする
-                LogUtility.Error($"[{nameof(CanvasController_InGame)}]{nameof(_timeController)} が取得できませんでした");
+                LogUtility.Error($"[{nameof(CanvasController_InGame)}]{nameof(_timeManager)} が取得できませんでした");
                 _date.enabled = false;
                 return;
             }
 
             // 取得できている場合のみバインドを行い、テキストを初期化
-            _timeController.OnTimeChanged += UpdateDateText;
-            _date.text = _timeController.GetTimeText;
+            _timeManager.OnTimeChanged += UpdateDateText;
+            _date.text = _timeManager.GetTimeText;
         }
         
         
@@ -60,16 +60,16 @@ namespace iCON.UI
         /// </summary>
         private void UpdateDateText()
         {
-            if (_date != null && _timeController != null)
+            if (_date != null && _timeManager != null)
             {
-                _date.text = _timeController.GetTimeText;
+                _date.text = _timeManager.GetTimeText;
             }
         }
         
         private void OnDestroy()
         {
             if(_button != null) _button.onClick?.RemoveAllListeners();
-            if(_timeController != null) _timeController.OnTimeChanged -= UpdateDateText;
+            if(_timeManager != null) _timeManager.OnTimeChanged -= UpdateDateText;
         }
     }
 }
