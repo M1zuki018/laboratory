@@ -88,27 +88,18 @@ namespace CryStar.PerProject
                 // 移動間隔が溜まっていなかったら次のキャラクターの抽選を行う
                 if (_updateCount - _lastMovement[character] < _movementDuration)
                 {
-                    Debug.Log($"continue {character}");
                     continue;
                 }
                 
                 if (LotteryIsThere())
                 {
                     // キャラクターが場面内にいる場合は抽選を行う
-                    LotteryLocation((CharacterType)i);
+                    LotteryLocation(character);
                 }
                 else
                 {
-                    // キャラクターが退場する場合は、
-                    var targetData = _locationDataList
-                        .FirstOrDefault(data => data.CharacterType == (CharacterType)i);
-
-                    if (targetData != null)
-                    {
-                        targetData.AssignCharacter(CharacterType.None, _updateCount);
-                        OnMoveCharacter?.Invoke(targetData.LocationType, CharacterType.None);
-                    }
-                    // 見つからなかった場合は何もしない
+                    // 退場処理を呼び出す
+                    ExitCharacter(character);
                 }
             }
             
@@ -123,7 +114,7 @@ namespace CryStar.PerProject
         }
 
         /// <summary>
-        /// キャラクターがいるかチェックする
+        /// キャラクターの入退場をチェックする
         /// </summary>
         private bool LotteryIsThere()
         {
@@ -147,6 +138,9 @@ namespace CryStar.PerProject
             // まだそこにキャラクターがいない場合はキャラクターを登録
             if (!_locationDataList[lotteryValue].HasCharacter)
             {
+                // 現在いる場所で退場処理を呼び出し
+                ExitCharacter(character);
+                
                 _locationDataList[lotteryValue].AssignCharacter(character, _updateCount);
                 
                 // 最終移動時間を更新
@@ -160,6 +154,23 @@ namespace CryStar.PerProject
                 // 既にキャラクターがいた場合は再度抽選を行う
                 LotteryLocation(character);
             }
+        }
+        
+        /// <summary>
+        /// キャラクターを退場させる処理
+        /// </summary>
+        private void ExitCharacter(CharacterType character)
+        {
+            // キャラクターが退場する場合は、
+            var targetData = _locationDataList
+                .FirstOrDefault(data => data.CharacterType == character);
+
+            if (targetData != null)
+            {
+                targetData.AssignCharacter(CharacterType.None, _updateCount);
+                OnMoveCharacter?.Invoke(targetData.LocationType, CharacterType.None);
+            }
+            // 見つからなかった場合は何もしない
         }
     }
 }
