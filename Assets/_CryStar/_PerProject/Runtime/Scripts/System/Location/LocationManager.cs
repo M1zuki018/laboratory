@@ -11,7 +11,7 @@ namespace CryStar.PerProject
     /// <summary>
     /// キャラクターが存在する位置を管理するクラス
     /// </summary>
-    public class LocationManager : CustomBehaviour
+    public class CharacterLocationManager : CustomBehaviour
     {
         public event Action<LocationType, CharacterType> OnMoveCharacter;
         
