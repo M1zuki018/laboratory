@@ -139,6 +139,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 545929980768059745, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2481674219279586343, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
       propertyPath: _volume
       value: 
@@ -1051,6 +1055,7 @@ GameObject:
   - component: {fileID: 1842244465}
   - component: {fileID: 1842244467}
   - component: {fileID: 1842244468}
+  - component: {fileID: 1842244469}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1108,6 +1113,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe08456f840e4d342939f4bcccb22801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1842244469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842244464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38975aeccab237d48a1b0ccab0f4c23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2006047172
