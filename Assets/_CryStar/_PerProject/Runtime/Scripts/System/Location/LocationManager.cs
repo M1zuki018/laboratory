@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CryStar.Core;
+using CryStar.Core.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace CryStar.PerProject
     /// </summary>
     public class LocationManager : CustomBehaviour
     {
+        public event Action<LocationType, CharacterType> OnMoveCharacter;
+        
         [SerializeField] private int _movementDuration = 3; // 行動間隔
 
         private int _updateCount; // タイマー更新時から数えたカウント
@@ -22,6 +25,15 @@ namespace CryStar.PerProject
         
         #region Life cycle
 
+        /// <summary>
+        /// Awake
+        /// </summary>
+        public override async UniTask OnAwake()
+        {
+            await base.OnAwake();
+            ServiceLocator.Register(this, ServiceType.Local);
+        }
+        
         /// <summary>
         /// Start
         /// </summary>
@@ -94,6 +106,7 @@ namespace CryStar.PerProject
                     if (targetData != null)
                     {
                         targetData.AssignCharacter(CharacterType.None, _updateCount);
+                        OnMoveCharacter?.Invoke(targetData.LocationType, CharacterType.None);
                     }
                     // 見つからなかった場合は何もしない
                 }
@@ -138,6 +151,9 @@ namespace CryStar.PerProject
                 
                 // 最終移動時間を更新
                 _lastMovement[character] = _updateCount;
+                
+                // 決定した場所・キャラクターでコールバック呼び出し
+                OnMoveCharacter?.Invoke((LocationType)lotteryValue, character);
             }
             else
             {
