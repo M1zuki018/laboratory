@@ -6,14 +6,14 @@ namespace CryStar.PerProject
     public enum AreaType
     {
         /// <summary>
-        /// 研究室東（イーシャ/ルイーズ側）
-        /// </summary>
-        EastLab = 1,
-        
-        /// <summary>
         /// 研究室西（カリル/フィルウ側）
         /// </summary>
-        WestLab = 2,
+        WestLab = 1,
+        
+        /// <summary>
+        /// 研究室東（イーシャ/ルイーズ側）
+        /// </summary>
+        EastLab = 2,
         
         /// <summary>
         /// 廊下 研究室を出てすぐ
