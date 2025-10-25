@@ -41,6 +41,18 @@ public static class MasterStoryScene
             6, new StorySceneData(6, "ユールとの会話", 3, 1, 1, 
                 "A102:O112", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
+        },{
+            7, new StorySceneData(7, "夕方の会話", 3, 1, 1, 
+                "A114:O120", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            8, new StorySceneData(8, "夜の会話", 3, 1, 1, 
+                "A122:O128", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            9, new StorySceneData(9, "朝の会話", 3, 1, 1, 
+                "A130:O138", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
         },
     };
 
