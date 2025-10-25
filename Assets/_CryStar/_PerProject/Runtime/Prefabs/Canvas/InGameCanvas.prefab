@@ -2405,27 +2405,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 116115029546921173, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 116115029546921173, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 116115029546921173, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 2333.3335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1655961069581044634, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1655961069581044634, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1655961069581044634, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 2333.3335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2645920889907406468, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_Pivot.x
@@ -2509,39 +2509,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4760735192829618254, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4760735192829618254, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4760735192829618254, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 2333.3335
-      objectReference: {fileID: 0}
-    - target: {fileID: 5974226272695949761, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6756808293973324623, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6756808293973324623, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6756808293973324623, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 2333.3335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7241587270615209574, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
       propertyPath: m_Name
       value: StoryCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7241587270615209574, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
