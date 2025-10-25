@@ -2,6 +2,7 @@ using CryStar.Core;
 using CryStar.Core.Enums;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
+using iCON.System;
 
 namespace CryStar.PerProject
 {
@@ -11,7 +12,8 @@ namespace CryStar.PerProject
     public class AreaTalkManager : CustomBehaviour
     {
         private CharacterLocationManager _locationManager; // キャラクターの位置データを管理するクラス
-
+        private InGameManager _inGameManager;
+        
         #region Life cycle
 
         public override async UniTask OnAwake()
@@ -28,9 +30,16 @@ namespace CryStar.PerProject
             {
                 LogUtility.Error($"[{typeof(AreaTalkManager)}] {typeof(CharacterLocationManager)} がローカルサービスから取得できませんでした");
             }
+            
+            _inGameManager = ServiceLocator.GetLocal<InGameManager>();
         }
 
         #endregion
+
+        public void GetMessage()
+        {
+            _inGameManager.PlayStory(2);
+        }
         
         /// <summary>
         /// Viewからタップされたキャラクターの位置情報が渡されるため
@@ -50,6 +59,7 @@ namespace CryStar.PerProject
                 }
             }
 
+            
             var character = _locationManager.GetCharacter(location);
             // TODO: マスタデータを参照してキャラクターの表示名を取得する
             var characterName = character switch

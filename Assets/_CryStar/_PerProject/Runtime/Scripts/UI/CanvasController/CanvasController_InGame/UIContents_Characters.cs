@@ -21,7 +21,6 @@ namespace iCON.UI
         
         [Header("Debug")]
         [SerializeField] private List<Sprite> _characterSpriteList = new List<Sprite>();
-        [SerializeField] private UIContents_StoryDialog _dialog;
         
         private CharacterLocationManager _locationManager; // キャラクターの場所を管理するクラス
         private AreaManager _areaManager; // 現在のプレイヤーの居場所を管理するクラス
@@ -172,17 +171,12 @@ namespace iCON.UI
             {
                 return;
             }
-
+            
             // ボタンが押された場所にキャラクターが設定されているか確認
             if (_locationManager.HasCharacter(location))
             {
-                // 表示すべきメッセージを取得する
-                var data = _areaTalkManager.GetMessage(location);
-                if (!_dialog.IsVisible)
-                {
-                    _dialog.FadeIn(0);
-                }
-                _dialog.SetTalk(data.name, data.massage, 0.5f);
+                // TODO: 処理を修正する
+                _areaTalkManager.GetMessage();
             }
         }
 
