@@ -39,7 +39,7 @@ namespace CryStar.Story.Player
             }
 
             // スペースキーで次のオーダーへ
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
                 _onNextOrderRequested?.Invoke();
             }
