@@ -172,12 +172,14 @@ namespace iCON.UI
                 return;
             }
             
-            // ボタンが押された場所にキャラクターが設定されているか確認
-            if (_locationManager.HasCharacter(location))
+            // クリックされた位置にキャラクターが存在しなければ早期return
+            if (!_locationManager.HasCharacter(location))
             {
-                // TODO: 処理を修正する
-                _areaTalkManager.GetMessage();
+                return;
             }
+            
+            // TODO: 処理を修正する
+            _areaTalkManager.PlayAreaTalk(location);
         }
 
         /// <summary>
