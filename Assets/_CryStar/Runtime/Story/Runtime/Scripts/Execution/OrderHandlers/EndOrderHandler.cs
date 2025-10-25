@@ -76,6 +76,9 @@ namespace CryStar.Story.Execution
             //ダイアログをリセット
             view.ResetTalk();
             view.ResetDescription();
+            
+            // フェードパネルをリセット
+            view.ResetFadePanel();
 
             _endAction?.Invoke();
         }

@@ -160,6 +160,14 @@ namespace CryStar.Story.UI
         }
 
         /// <summary>
+        /// フェードパネルをリセット
+        /// </summary>
+        public void ResetFadePanel()
+        {
+            _fadePanel.Reset();
+        }
+
+        /// <summary>
         /// フェードパネルの表示/非表示を即座に切り替える
         /// </summary>
         public void FadePanelSetVisible(bool visible)

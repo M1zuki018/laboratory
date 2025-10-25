@@ -21,6 +21,20 @@ namespace CryStar.Story.UI
         [SerializeField] 
         private bool _startVisible = false;
 
+        public override void Initialize()
+        {
+            base.Initialize();
+            Reset();
+        }
+
+        /// <summary>
+        /// リセット処理
+        /// </summary>
+        public void Reset()
+        {
+            SetVisibility(_startVisible);
+        }
+        
         /// <summary>
         /// 画面のフラッシュ演出
         /// </summary>
