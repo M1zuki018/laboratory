@@ -25,6 +25,7 @@ namespace iCON.UI
         private CharacterLocationManager _locationManager; // キャラクターの場所を管理するクラス
         private AreaManager _areaManager; // 現在のプレイヤーの居場所を管理するクラス
         private AreaTalkManager _areaTalkManager; // エリアでの会話を管理するクラス
+        private CanvasGroup _currentActiveCanvasGroup; // 現在アクティブなCanvasGroup
         
         #region Life cycle
 
@@ -150,14 +151,17 @@ namespace iCON.UI
                 case AreaType.WestLab:
                     EnableCanvas(_westLab, true);
                     EnableCanvas(_eastLab, false);
+                    _currentActiveCanvasGroup = _westLab;
                     break;
                 case AreaType.EastLab:
                     EnableCanvas(_westLab, false);
                     EnableCanvas(_eastLab, true);
+                    _currentActiveCanvasGroup = _eastLab;
                     break;
                 default:
                     EnableCanvas(_westLab, false);
                     EnableCanvas(_eastLab, false);
+                    _currentActiveCanvasGroup = null;
                 break;
             }
         }
@@ -177,9 +181,18 @@ namespace iCON.UI
             {
                 return;
             }
+
+            if (_currentActiveCanvasGroup != null)
+            {
+                // 表示されているボタンがクリック出来ないようにする
+                InternalEnableCanvas(false);
+            }
             
             // TODO: 処理を修正する
-            _areaTalkManager.PlayAreaTalk(location);
+            _areaTalkManager.PlayAreaTalk(location, () =>
+            {
+                InternalEnableCanvas(true);
+            });
         }
 
         /// <summary>
@@ -187,9 +200,28 @@ namespace iCON.UI
         /// </summary>
         private void EnableCanvas(CanvasGroup canvasGroup, bool enable)
         {
+            if (canvasGroup == null)
+            {
+                return;
+            }
+            
             canvasGroup.alpha = enable ? 1 : 0;
             canvasGroup.interactable = enable;
             canvasGroup.blocksRaycasts = enable;
+        }
+
+        /// <summary>
+        /// キャンバスの有効/無効を切り替える
+        /// </summary>
+        private void InternalEnableCanvas(bool enable)
+        {
+            if (_currentActiveCanvasGroup == null)
+            {
+                return;
+            }
+            
+            _currentActiveCanvasGroup.interactable = enable;
+            _currentActiveCanvasGroup.blocksRaycasts = enable;
         }
     }
 

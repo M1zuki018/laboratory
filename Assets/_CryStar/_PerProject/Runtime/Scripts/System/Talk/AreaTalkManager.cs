@@ -1,3 +1,4 @@
+using System;
 using CryStar.Core;
 using CryStar.Core.Enums;
 using CryStar.Utility;
@@ -58,7 +59,7 @@ namespace CryStar.PerProject
         /// Viewからタップされたキャラクターの位置情報が渡されるため
         /// それを元にエリア会話を再生する
         /// </summary>
-        public void PlayAreaTalk(LocationType location)
+        public void PlayAreaTalk(LocationType location, Action endAction = null)
         {
             // 会話開始時にゲーム内時間の進行を止める、フリック入力を受け付けないようにする
             _timeManager.TogglePause();
@@ -66,7 +67,11 @@ namespace CryStar.PerProject
             
             // TODO: クリックされた位置情報とそのキャラクターを元に適切なストーリーIDをマスタデータから検索して流すようにする
             // 会話を再生する
-            _inGameManager.PlayStory(2, HandleTalkFinished);
+            _inGameManager.PlayStory(2, () =>
+            {
+                HandleTalkFinished();
+                endAction?.Invoke();
+            });
         }
 
         /// <summary>
