@@ -75,6 +75,24 @@ namespace CryStar.PerProject
         #endregion
 
         /// <summary>
+        /// 引数に渡されたLocationにキャラクターがいるか確認する
+        /// </summary>
+        public bool HasCharacter(LocationType targetLocation)
+        {
+            return _locationDataList[(int)targetLocation].HasCharacter;
+        }
+
+        /// <summary>
+        /// 引数に渡されたキャラクターを取得する
+        /// </summary>
+        /// <param name="targetLocation"></param>
+        /// <returns></returns>
+        public CharacterType GetCharacter(LocationType targetLocation)
+        {
+            return _locationDataList[(int)targetLocation].CharacterType;
+        }
+        
+        /// <summary>
         /// 抽選
         /// </summary>
         private void Lottery()
