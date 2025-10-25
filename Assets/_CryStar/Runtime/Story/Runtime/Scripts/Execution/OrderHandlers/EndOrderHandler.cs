@@ -40,16 +40,8 @@ namespace CryStar.Story.Execution
             // ストーリー読了を記録
             StoryUserData.AddStoryClearData(new StorySaveData(data.PartId, data.ChapterId, data.SceneId));
             
-            // フェードアウト実行後、ストーリー終了処理を実行する
-            
-            // BGMのフェードアウト
-            AudioManager.Instance.FadeOutBGM(data.Duration).Forget();
-            
-            // View全体を非表示
-            var tween = view.FadeOut(data.Duration);
-            tween.OnComplete(() => HandleReset(view));
-            
-            return tween;
+            // NOTE: 0秒にすると処理が正常に行われないため、若干秒遅延させている
+            return DOVirtual.DelayedCall(0.1f, () => HandleReset(view));
         }
 
         /// <summary>

@@ -20,9 +20,7 @@ namespace CryStar.Story.Execution
         {
             // ログを流す
             LogUtility.Verbose("Story started", LogCategory.System);
-            
-            // フェードイン処理
-            return view.FadeIn(data.Duration);
+            return null;
         }
     }
 }
