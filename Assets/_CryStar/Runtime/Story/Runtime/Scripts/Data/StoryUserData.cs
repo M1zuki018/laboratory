@@ -1,60 +1,32 @@
 using System;
-using System.Collections.Generic;
 
-public class StoryUserData
+namespace CryStar.Data.User
 {
-    private static Dictionary<StorySaveData, bool> _storySaveData = new Dictionary<StorySaveData, bool>();
-
     /// <summary>
-    /// クリアしたか
+    /// ストーリーのユーザーデータ
     /// </summary>
-    public static void AddStoryClearData(StorySaveData storySaveData)
+    [Serializable]
+    public class StoryUserData : CachedUserDataBase
     {
-        _storySaveData[storySaveData] = true;
-    }
-
-    /// <summary>
-    /// 前提ストーリーをClearしているか
-    /// </summary>
-    /// <returns></returns>
-    public static bool IsPremiseStoryClear(StorySaveData storySaveData)
-    {
-        return _storySaveData.ContainsKey(storySaveData);
-    }
-}
-
-[Serializable]
-public class StorySaveData
-{
-    public int PartId;
-    public int ChapterId;
-    public int SceneId;
-
-    public StorySaveData(int partId, int chapterId, int sceneId)
-    {
-        PartId = partId;
-        ChapterId = chapterId;
-        SceneId = sceneId;
-    }
-    
-    public override bool Equals(object obj)
-    {
-        if (obj is StorySaveData other)
+        /// <summary>
+        /// ストーリーがセーブされたときのコールバック
+        /// </summary>
+        public event Action<int> OnStorySave;
+        
+        public StoryUserData(int userId) : base(userId) { }
+        
+        /// <summary>
+        /// クリアしたか
+        /// </summary>
+        public override void AddData(int id)
         {
-            return PartId == other.PartId && 
-                   ChapterId == other.ChapterId && 
-                   SceneId == other.SceneId;
+            if (!_dataCache.ContainsKey(id))
+            {
+                // 未クリアの場合、コールバックを呼び出す
+                OnStorySave?.Invoke(id);
+            }
+            
+            base.AddData(id);
         }
-        return false;
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(PartId, ChapterId, SceneId);
-    }
-
-    public override string ToString()
-    {
-        return $"Story({PartId}-{ChapterId}-{SceneId})";
-    }
+    }   
 }

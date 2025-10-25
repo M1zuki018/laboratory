@@ -1,4 +1,5 @@
 using System;
+using CryStar.Data.User;
 using CryStar.Story.Attributes;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
@@ -37,8 +38,8 @@ namespace CryStar.Story.Execution
             // ログを流す
             LogUtility.Verbose("Story ended", LogCategory.System);
 
-            // ストーリー読了を記録
-            StoryUserData.AddStoryClearData(new StorySaveData(data.PartId, data.ChapterId, data.SceneId));
+            // ストーリー読了を記録 TODO:
+            //StoryUserData.AddData(data.SceneId);
             
             // NOTE: 0秒にすると処理が正常に行われないため、若干秒遅延させている
             return DOVirtual.DelayedCall(0.1f, () => HandleReset(view));

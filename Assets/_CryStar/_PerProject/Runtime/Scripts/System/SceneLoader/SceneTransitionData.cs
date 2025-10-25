@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using CryStar.Core.Enums;
+using iCON.System;
 
-namespace iCON.System
+namespace CryStar.Data.Scene
 {
     /// <summary>
     /// シーン遷移のパラメータ

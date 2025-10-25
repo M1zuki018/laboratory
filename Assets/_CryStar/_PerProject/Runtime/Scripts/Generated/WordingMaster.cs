@@ -1,35 +1,44 @@
-// ============================================================================
-// AUTO GENERATED - DO NOT MODIFY
-// Generated at: 2025-07-15 00:29:49
-// ============================================================================
-
 using System.Collections.Generic;
+using UnityEngine;
 
-/// <summary>
-/// ワーディングキー定数クラス
-/// </summary>
-public static class WordingMaster
+namespace CryStar.MasterData
 {
-    private static readonly Dictionary<string, string> _data = new Dictionary<string, string>
+    /// <summary>
+    /// 文言キーのマスターデータ
+    /// </summary>
+    public class WordingMaster : AddressableJsonMasterBase<string, string>
     {
-        { "BOOT_START", "Start" },
-        { "LOADING", "Loading..." },
-        { "STORY_IMMERSED", "UI\n非表示" },
-        { "STORY_AUTO", "オート\n再生" },
-        { "STORY_SKIP", "スキップ" },
-        { "BATTLE_COMMAND_ATTCK", "アタック" },
-        { "BATTLE_COMMAND_IDEA", "idea" },
-        { "BATTLE_COMMAND_ITEM", "item" },
-        { "BATTLE_COMMAND_GUARD", "まもる" },
-        { "BATTLE_FIRSTSELECT_START", "たたかう" },
-        { "BATTLE_FIRSTSELECT_ESCAPE", "にげる" },
-        { "BATTLE_IDEA_COMMAND", "command" },
-        { "BATTLE_IDEA_ACTOR", "actor" },
-        { "BATTLE_FAILED_ESCAPE", "▼逃げ場などない" },
-    };
+        public override LoadPriority Priority => LoadPriority.Resident;
+        protected override string AddressOrLabel => MasterDataAddresses.WORDING;
 
-    public static string GetText(string key)
-    {
-        return _data.GetValueOrDefault(key, null);
+        protected override void LoadFromJson(string json)
+        {
+            var wordingData = JsonUtility.FromJson<WordingData>(json);
+            _data = new Dictionary<string, string>(wordingData.data.Count);
+
+            foreach (var entry in wordingData.data)
+            {
+                _data[entry.key] = entry.value;
+            }
+
+            Debug.Log($"[WordingMaster] Loaded {_data.Count} entries (version: {wordingData.version})");
+        }
+
+        /// <summary>
+        /// 文字列を取得する
+        /// </summary>
+        public static string GetText(string key)
+        {
+            var master = MasterDataManager.Instance.Get<WordingMaster>();
+            return master?.Get(key) ?? $"[{key}]";
+        }
+
+        /// <summary>
+        /// フォーマット形式の文字列を取得する
+        /// </summary>
+        public static string GetFormat(string key, params object[] args)
+        {
+            return string.Format(GetText(key), args);
+        }
     }
 }

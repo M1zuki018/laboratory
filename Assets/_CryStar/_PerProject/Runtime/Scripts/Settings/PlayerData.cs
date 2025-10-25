@@ -1,31 +1,33 @@
 using CryStar.Core.ReactiveExtensions;
 
-/// <summary>
-/// プレイヤー情報を保持しておくための静的クラス
-/// </summary>
-public static class PlayerData
+namespace CryStar.Data.User
 {
-    public static ReactiveProperty<string> NameProp = new ReactiveProperty<string>("Default");
-    public static ReactiveProperty<int> LevelProp = new ReactiveProperty<int>(1);
-
-    
     /// <summary>
-    /// 名前を設定する
+    /// プレイヤー情報を保持しておくための静的クラス
     /// </summary>
-    public static void SetName(string name) => NameProp.Value = name;
+    public static class PlayerData
+    {
+        public static ReactiveProperty<string> NameProp = new ReactiveProperty<string>("Default");
+        public static ReactiveProperty<int> LevelProp = new ReactiveProperty<int>(1);
     
-    /// <summary>
-    /// レベルを設定する
-    /// </summary>
-    public static void SetLevel(int value) => LevelProp.Value = value;
+        /// <summary>
+        /// 名前を設定する
+        /// </summary>
+        public static void SetName(string name) => NameProp.Value = name;
     
-    /// <summary>
-    /// レベルアップ
-    /// </summary>
-    public static void LevelUp() => LevelProp.Value++;
+        /// <summary>
+        /// レベルを設定する
+        /// </summary>
+        public static void SetLevel(int value) => LevelProp.Value = value;
     
-    /// <summary>
-    /// レベルリセット
-    /// </summary>
-    public static void LevelReset() => LevelProp.Value = 1;
+        /// <summary>
+        /// レベルアップ
+        /// </summary>
+        public static void LevelUp() => LevelProp.Value++;
+    
+        /// <summary>
+        /// レベルリセット
+        /// </summary>
+        public static void LevelReset() => LevelProp.Value = 1;
+    }
 }

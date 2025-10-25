@@ -1,3 +1,4 @@
+using CryStar.MasterData;
 using UnityEngine;
 using UnityEngine.UI;
 

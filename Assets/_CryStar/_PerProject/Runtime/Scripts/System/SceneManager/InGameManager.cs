@@ -2,7 +2,10 @@ using System;
 using CryStar.Attribute;
 using CryStar.Core;
 using CryStar.Core.Enums;
+using CryStar.Data.Scene;
 using CryStar.Story.Orchestrators;
+using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using iCON.UI;
 using UnityEngine;
@@ -53,6 +56,18 @@ namespace iCON.System
                     _canvasController.Setup();
                     endAction?.Invoke();
                 }).Forget();
+        }
+        
+        /// <summary>
+        /// ストーリーの事前ロードを行う
+        /// </summary>
+        public async UniTask PreloadStoryAsync(int[] storyIdArray)
+        {
+            foreach (var storyId in storyIdArray)
+            {
+                await _storyOrchestrator.LoadSceneDataAsync(storyId);
+            }
+            LogUtility.Info($"{storyIdArray.Length}件 ストーリーのプリロードを行いました", LogCategory.System);
         }
     }
 }
