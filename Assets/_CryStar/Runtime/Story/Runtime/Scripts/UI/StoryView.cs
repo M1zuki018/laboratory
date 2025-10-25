@@ -140,6 +140,12 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween FadeIn(float duration)
         {
+            if (!_fadePanel.IsVisible)
+            {
+                // もし表示されていない状態であれば表示する
+                _fadePanel.SetVisibility(true);
+            }
+            
             // パネルは非表示にする
             return _fadePanel.FadeOut(duration);
         }
