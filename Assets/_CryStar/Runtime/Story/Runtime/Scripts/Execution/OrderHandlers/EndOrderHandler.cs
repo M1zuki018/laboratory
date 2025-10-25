@@ -76,9 +76,6 @@ namespace CryStar.Story.Execution
             //ダイアログをリセット
             view.ResetTalk();
             view.ResetDescription();
-            
-            // BGMの音量を確実に0にする
-            AudioManager.Instance.FadeOutBGM(0).Forget();
 
             _endAction?.Invoke();
         }
