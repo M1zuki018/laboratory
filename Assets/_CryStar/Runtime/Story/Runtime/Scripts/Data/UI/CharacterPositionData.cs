@@ -188,8 +188,8 @@ namespace CryStar.Story.Data
                 return;
             }
             
-            _initialScale = _primaryImage.transform.localScale.x;
-            _initialPosition = _primaryImage.transform.localPosition;
+            _initialScale = _primaryImage.rectTransform.localScale.x;
+            _initialPosition = _primaryImage.rectTransform.localPosition;
         }
 
         /// <summary>
@@ -236,8 +236,8 @@ namespace CryStar.Story.Data
                 return;
             }
             
-            image.transform.localPosition = _initialPosition;
-            image.transform.localScale = Vector3.one * _initialScale;
+            image.rectTransform.localPosition = _initialPosition;
+            image.rectTransform.localScale = Vector3.one * _initialScale;
         }
 
         #endregion
