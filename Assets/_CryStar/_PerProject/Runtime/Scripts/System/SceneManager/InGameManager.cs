@@ -1,3 +1,4 @@
+using System;
 using CryStar.Attribute;
 using CryStar.Core;
 using CryStar.Core.Enums;
@@ -42,7 +43,7 @@ namespace iCON.System
             }
         }
         
-        public void PlayStory(int storyId)
+        public void PlayStory(int storyId, Action endAction = null)
         {
             _storyOrchestrator.gameObject.SetActive(true);
             _storyOrchestrator.PlayStoryAsync(storyId,
@@ -50,6 +51,7 @@ namespace iCON.System
                 {
                     _storyOrchestrator.gameObject.SetActive(false);
                     _canvasController.Setup();
+                    endAction?.Invoke();
                 }).Forget();
         }
     }
