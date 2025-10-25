@@ -21,13 +21,13 @@ public static class MasterStoryScene
             )
         },
         {
-            2, new StorySceneData(2, "会話 - 1", 2, 1, 1, 
+            2, new StorySceneData(2, "エリア会話1", 2, 1, 1, 
                 "A71:O77", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
         {
-            3, new StorySceneData(3, "マキ・幼少期 - 2", 2, 1, 2, 
-                "A300:O359", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), 2
+            3, new StorySceneData(3, "廊下", 2, 1, 2, 
+                "A79:O83", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
             4, new StorySceneData(4, "ROTL OP", 3, 1, 1, 
