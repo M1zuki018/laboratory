@@ -83,13 +83,24 @@ namespace CryStar.PerProject
         }
 
         /// <summary>
-        /// 引数に渡されたキャラクターを取得する
+        /// 引数に渡されたLocationにいるキャラクターIDを返す
         /// </summary>
-        /// <param name="targetLocation"></param>
-        /// <returns></returns>
-        public CharacterType GetCharacter(LocationType targetLocation)
+        public int GetCharacterId(LocationType targetLocation)
         {
-            return _locationDataList[(int)targetLocation].CharacterType;
+            return (int)_locationDataList[(int)targetLocation].CharacterType;
+        }
+        
+        /// <summary>
+        /// 現在のキャラクターの存在状況をID形式で返す
+        /// </summary>
+        public string GetCurrentStateID()
+        {
+            var id = string.Empty;
+            foreach (var data in _locationDataList)
+            {
+                id += (int)data.CharacterType;
+            }
+            return id;
         }
         
         /// <summary>

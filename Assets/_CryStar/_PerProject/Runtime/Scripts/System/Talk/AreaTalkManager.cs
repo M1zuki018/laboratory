@@ -4,6 +4,7 @@ using CryStar.Core.Enums;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using iCON.System;
+using UnityEngine;
 
 namespace CryStar.PerProject
 {
@@ -81,8 +82,14 @@ namespace CryStar.PerProject
         public void PlayAreaTalk(LocationType location, Action endAction = null)
         {
             // TODO: クリックされた位置情報とそのキャラクターを元に適切なストーリーIDをマスタデータから検索して流すようにする
+            // クリックされた位置にいるキャラクター情報を取得
+            var characterId = _locationManager.GetCharacterId(location);
             
-            ExecuteAreaTalk(2, endAction);
+            // 現在のキャラクターの配置状況を取得　TODO: 仮
+            var currentStateId = _locationManager.GetCurrentStateID();
+            
+            // TODO: 仮
+            ExecuteAreaTalk(characterId + 2, endAction);
         }
 
         /// <summary>
@@ -120,7 +127,7 @@ namespace CryStar.PerProject
             {
                 // 廊下に移動した場合に会話を発生させたい
                 // TODO: 仮の処理
-                ExecuteAreaTalk(3);
+                ExecuteAreaTalk(2);
             }
         }
     }

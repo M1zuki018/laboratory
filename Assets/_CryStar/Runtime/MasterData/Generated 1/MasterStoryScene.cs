@@ -22,16 +22,24 @@ public static class MasterStoryScene
         },
         {
             2, new StorySceneData(2, "エリア会話1", 2, 1, 1, 
-                "A71:O77", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A79:O83", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
         {
-            3, new StorySceneData(3, "廊下", 2, 1, 2, 
-                "A79:O83", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            3, new StorySceneData(3, "カリルとの会話", 2, 1, 2, 
+                "A71:O77", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
-            4, new StorySceneData(4, "ROTL OP", 3, 1, 1, 
-                "A361:O372", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            4, new StorySceneData(4, "フィルウとの会話", 3, 1, 1, 
+                "A84:O92", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            5, new StorySceneData(5, "イーシャとの会話", 3, 1, 1, 
+                "A94:O100", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            6, new StorySceneData(6, "ユールとの会話", 3, 1, 1, 
+                "A102:O112", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
     };
