@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CryStar.Attribute;
 using CryStar.Core;
+using CryStar.PerProject;
 using CryStar.Story.Constants;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
@@ -38,6 +39,9 @@ namespace iCON.System
         /// </summary>
         [SerializeField, HighlightIfNull] 
         private GameSettings _gameSettings;
+        
+        [Header("設定")]
+        [SerializeField] private SeData _tapSeData;
 
         // NOTE: クロスフェード用に2つ用意する
         private AudioSource _bgmSource; // BGM用
@@ -288,6 +292,11 @@ namespace iCON.System
                 // クリップ再生完了を待たずに即座に返す。リソース管理は非同期で行う
                 ReleaseAudioSourceAfterPlay(source, clip.length).Forget();
             }
+        }
+
+        public void PlayTapSe()
+        {
+            Instance.PlaySE(_tapSeData.Path, _tapSeData.Volume).Forget();
         }
 
         /// <summary>

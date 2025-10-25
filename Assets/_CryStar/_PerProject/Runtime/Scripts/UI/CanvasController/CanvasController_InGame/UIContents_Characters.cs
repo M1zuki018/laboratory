@@ -6,6 +6,7 @@ using CryStar.PerProject;
 using CryStar.Story.UI;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
+using iCON.System;
 using UnityEngine;
 
 namespace iCON.UI
@@ -187,6 +188,8 @@ namespace iCON.UI
                 // 表示されているボタンがクリック出来ないようにする
                 InternalEnableCanvas(false);
             }
+            
+            AudioManager.Instance.PlayTapSe();
             
             // TODO: 処理を修正する
             _areaTalkManager.PlayAreaTalk(location, () =>
