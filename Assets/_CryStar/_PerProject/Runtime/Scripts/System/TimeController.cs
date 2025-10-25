@@ -114,8 +114,16 @@ namespace CryStar.PerProject
         /// </summary>
         public void TogglePause()
         {
-            _isPausing = !_isPausing;
-            OnPause?.Invoke(_isPausing);
+            SetPause(!_isPausing);
+        }
+
+        /// <summary>
+        /// ポーズ状態を設定する
+        /// </summary>
+        public void SetPause(bool isPause)
+        {
+            _isPausing = isPause;
+            OnPause?.Invoke(isPause);
         }
 
         /// <summary>
@@ -137,6 +145,24 @@ namespace CryStar.PerProject
             _currentTime = GetNextEventTime();
             CheckTimeEvents();
         }
+        
+        /// <summary>
+        /// 夜の時間に設定する
+        /// </summary>
+        public void SetNightTime()
+        {
+            _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, EVENING_BREAK_END_HOUR, 0, 0);
+        }
+
+        /// <summary>
+        /// 翌朝の時刻を設定する
+        /// </summary>
+        public void SetNextDayTime()
+        {
+            _currentTime = _currentTime.Date.AddDays(1).AddHours(WORK_START_HOUR);
+        }
+
+        #region Private Methods
 
         /// <summary>
         /// 時間を更新
@@ -145,7 +171,6 @@ namespace CryStar.PerProject
         {
             _currentTime = _currentTime.AddMinutes(MINUTES_PER_UPDATE);
             OnTimeChanged?.Invoke();
-            Debug.Log($"{GetTimeText}"); // TODO: とる
             
             CheckTimeEvents();
         }
@@ -157,15 +182,14 @@ namespace CryStar.PerProject
         {
             if (_currentTime.Hour == WORK_END_HOUR && _currentTime.Minute == 0)
             {
+                // コールバック呼び出しと、時間停止
                 OnEveningEvent?.Invoke();
-                // 夕方休憩へジャンプ
-                _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, EVENING_BREAK_END_HOUR, 0, 0);
+                SetPause(true);
             }
             else if (_currentTime.Hour >= DAY_END_HOUR)
             {
                 OnFinishDay?.Invoke();
-                // 翌日の朝へ
-                _currentTime = _currentTime.Date.AddDays(1).AddHours(WORK_START_HOUR);
+                SetPause(true);
             }
         }
         
@@ -189,5 +213,7 @@ namespace CryStar.PerProject
             // 既に1日が終了している場合
             return default;
         }
+        
+        #endregion
     }
 }
