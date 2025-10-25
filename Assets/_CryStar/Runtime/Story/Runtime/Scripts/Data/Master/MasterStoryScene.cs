@@ -16,13 +16,13 @@ public static class MasterStoryScene
     private static readonly Dictionary<int, StorySceneData> _sceneData = new Dictionary<int, StorySceneData>
     {
         {
-            1, new StorySceneData(1, "琴葉の休息", 1, 1, 1, 
-                "A3:O218", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            1, new StorySceneData(1, "OP", 1, 1, 1, 
+                "A3:O69", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
         {
-            2, new StorySceneData(2, "マキ・幼少期 - 1", 2, 1, 1, 
-                "A220:O298", 1.2f, new Vector3(180.0f, 60.0f, 0.0f), null
+            2, new StorySceneData(2, "会話 - 1", 2, 1, 1, 
+                "A71:O74", 1.2f, new Vector3(180.0f, 60.0f, 0.0f), null
             )
         },
         {
