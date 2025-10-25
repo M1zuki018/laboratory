@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CryStar.Core;
 using CryStar.PerProject;
+using CryStar.Story.UI;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -20,9 +21,11 @@ namespace iCON.UI
         
         [Header("Debug")]
         [SerializeField] private List<Sprite> _characterSpriteList = new List<Sprite>();
+        [SerializeField] private UIContents_StoryDialog _dialog;
         
-        private CharacterLocationManager _characterLocationManager; // キャラクターの場所を管理するクラス
+        private CharacterLocationManager _locationManager; // キャラクターの場所を管理するクラス
         private AreaManager _areaManager; // 現在のプレイヤーの居場所を管理するクラス
+        private AreaTalkManager _areaTalkManager; // エリアでの会話を管理するクラス
         
         #region Life cycle
 
@@ -31,18 +34,24 @@ namespace iCON.UI
             await base.OnBind();
             InitializeCharacterLocation();
             InitializeArea();
+            InitializeAreaTalk();
         }
 
         private void OnDestroy()
         {
-            if (_characterLocationManager != null)
+            if (_locationManager != null)
             {
-                _characterLocationManager.OnMoveCharacter -= HandleMoveCharacter;
+                _locationManager.OnMoveCharacter -= HandleMoveCharacter;
             }
 
             if (_areaManager != null)
             {
                 _areaManager.OnChangedArea -= HandleChangeArea;
+            }
+
+            foreach (var viewData in _characterButtonDataList)
+            {
+                viewData.Button.onClick.SafeRemoveAllListeners();
             }
         }
 
@@ -55,14 +64,14 @@ namespace iCON.UI
         /// </summary>
         private void InitializeCharacterLocation()
         {
-            _characterLocationManager = ServiceLocator.GetLocal<CharacterLocationManager>();
-            if (_characterLocationManager == null)
+            _locationManager = ServiceLocator.GetLocal<CharacterLocationManager>();
+            if (_locationManager == null)
             {
                 LogUtility.Error($"[{typeof(UIContents_Characters)}] ローカルサービスから{typeof(CharacterLocationManager)}が取得できませんでした");
                 return;
             }
             
-            _characterLocationManager.OnMoveCharacter += HandleMoveCharacter;
+            _locationManager.OnMoveCharacter += HandleMoveCharacter;
         }
 
         /// <summary>
@@ -84,6 +93,26 @@ namespace iCON.UI
 
             _areaManager.OnChangedArea += HandleChangeArea;
             HandleChangeArea(_areaManager.CurrentArea);
+        }
+        
+        /// <summary>
+        /// AreaTalkManager関連の初期化
+        /// </summary>
+        private void InitializeAreaTalk()
+        {
+            _areaTalkManager = ServiceLocator.GetLocal<AreaTalkManager>();
+            if (_areaTalkManager == null)
+            {
+                LogUtility.Error($"[{typeof(UIContents_Characters)}] ローカルサービスから{typeof(AreaTalkManager)}が取得できませんでした");
+                return;
+            }
+            
+            // 各ボタンの初期化を行う
+            foreach (var viewData in _characterButtonDataList)
+            {
+                // ボタンが押された時に自分の位置データを使ってメソッドを呼び出したい
+                viewData.Button.onClick.SafeAddListener(() => HandleButtonClick(viewData.LocationType));
+            }
         }
         
         #endregion
@@ -131,6 +160,29 @@ namespace iCON.UI
                     EnableCanvas(_westLab, false);
                     EnableCanvas(_eastLab, false);
                 break;
+            }
+        }
+
+        /// <summary>
+        /// ボタンがクリックされたときの処理
+        /// </summary>
+        private void HandleButtonClick(LocationType location)
+        {
+            if (_areaTalkManager == null)
+            {
+                return;
+            }
+
+            // ボタンが押された場所にキャラクターが設定されているか確認
+            if (_locationManager.HasCharacter(location))
+            {
+                // 表示すべきメッセージを取得する
+                var data = _areaTalkManager.GetMessage(location);
+                if (!_dialog.IsVisible)
+                {
+                    _dialog.FadeIn(0);
+                }
+                _dialog.SetTalk(data.name, data.massage, 0.5f);
             }
         }
 
