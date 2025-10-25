@@ -19,12 +19,16 @@ namespace iCON.System
 
         [SerializeField]
         private PackSample_CanvasController_StorySelect _canvasController;
+
+        public override async UniTask OnAwake()
+        {
+            await base.OnAwake();
+            ServiceLocator.Register(this, ServiceType.Local);
+        }
         
         public override async UniTask OnStart()
         {
             await base.OnStart();
-            
-            ServiceLocator.Register(this, ServiceType.Local);
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyOrchestrator.gameObject.SetActive(false);
