@@ -13,6 +13,7 @@ namespace CryStar.PerProject
     {
         private CharacterLocationManager _locationManager; // キャラクターの位置データを管理するクラス
         private TimeManager _timeManager; // ゲーム内時間を管理するクラス
+        private FlickInputDetector _flickDetector; // フリック入力を管理するクラス
         private InGameManager _inGameManager;
         
         #region Life cycle
@@ -37,6 +38,12 @@ namespace CryStar.PerProject
             {
                 LogUtility.Error($"[{typeof(AreaTalkManager)}] {typeof(TimeManager)} がローカルサービスから取得できませんでした");
             }
+
+            _flickDetector = ServiceLocator.GetLocal<FlickInputDetector>();
+            if (_flickDetector == null)
+            {
+                LogUtility.Error($"[{typeof(AreaTalkManager)}] {typeof(FlickInputDetector)} がローカルサービスから取得できませんでした");
+            }
             
             _inGameManager = ServiceLocator.GetLocal<InGameManager>();
             if (_inGameManager == null)
@@ -53,13 +60,22 @@ namespace CryStar.PerProject
         /// </summary>
         public void PlayAreaTalk(LocationType location)
         {
-            // 会話開始時にゲーム内時間の進行を止める
+            // 会話開始時にゲーム内時間の進行を止める、フリック入力を受け付けないようにする
             _timeManager.TogglePause();
+            _flickDetector.SetTracking(false);
             
             // TODO: クリックされた位置情報とそのキャラクターを元に適切なストーリーIDをマスタデータから検索して流すようにする
             // 会話を再生する
-            // 会話終了時にはゲーム内時間の進行を再開できるようにActionを渡す
-            _inGameManager.PlayStory(2, _timeManager.TogglePause);
+            _inGameManager.PlayStory(2, HandleTalkFinished);
+        }
+
+        /// <summary>
+        /// 会話イベント終了時の処理
+        /// </summary>
+        private void HandleTalkFinished()
+        {
+            _timeManager.TogglePause();
+            _flickDetector.SetTracking(true);
         }
     }
 }
