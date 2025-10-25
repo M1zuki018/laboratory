@@ -22,15 +22,6 @@ namespace CryStar.Story.UI
         private bool _startVisible = false;
 
         /// <summary>
-        /// 初期化処理
-        /// </summary>
-        public override void Initialize()
-        {
-            base.Initialize();
-            SetColorWithAlpha(_defaultColor, _startVisible ? 1f : 0f);
-        }
-
-        /// <summary>
         /// 画面のフラッシュ演出
         /// </summary>
         public Tween Flash(float duration, Color panelColor)
