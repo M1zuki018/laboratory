@@ -104,6 +104,17 @@ namespace CryStar.PerProject
         }
         
         /// <summary>
+        /// キャラクターを全員退場させる処理
+        /// </summary>
+        public void ResetAllCharacter()
+        {
+            for (var character = CharacterType.Khalil; character <= CharacterType.Yule; character++)
+            {
+                ExitCharacter(character);
+            }
+        }
+        
+        /// <summary>
         /// 抽選
         /// </summary>
         private void Lottery()

@@ -13,6 +13,7 @@ namespace CryStar.PerProject
     public class TimeBasedEventManager : CustomBehaviour
     {
         private TimeManager _timeManager; // 時間帯を管理するクラス
+        private CharacterLocationManager _characterLocationManager; // キャラクターの位置を管理するクラス（リセット用）
         private InGameManager _inGameManager;
 
         #region Life cycle
@@ -28,6 +29,7 @@ namespace CryStar.PerProject
             await base.OnBind();
             
             InitializeTimeManager();
+            InitializeCharacterLocationManager();
             _inGameManager = ServiceLocator.GetLocal<InGameManager>();
         }
 
@@ -60,6 +62,18 @@ namespace CryStar.PerProject
             _timeManager.OnFinishDay += HandleFinishDay;
         }
 
+        /// <summary>
+        /// CharacterLocationManagerの初期化
+        /// </summary>
+        private void InitializeCharacterLocationManager()
+        {
+            _characterLocationManager = ServiceLocator.GetLocal<CharacterLocationManager>();
+            if (_characterLocationManager == null)
+            {
+                LogUtility.Error($"[{typeof(TimeBasedEventManager)}] {typeof(CharacterLocationManager)}がローカルサービスから取得できませんでした)]");
+            }
+        }
+        
         #endregion
 
         /// <summary>
@@ -106,6 +120,12 @@ namespace CryStar.PerProject
         /// </summary>
         private void SetNightTime()
         {
+            if (_characterLocationManager != null)
+            {
+                // 存在するキャラクターを一旦全て退場させる
+                _characterLocationManager.ResetAllCharacter();
+            }
+            
             if (_timeManager != null)
             {
                 // TODO: 切り替え演出やライティング変化などの処理を追加する
@@ -119,6 +139,12 @@ namespace CryStar.PerProject
         /// </summary>
         private void SetNextDayTime()
         {
+            if (_characterLocationManager != null)
+            {
+                // 存在するキャラクターを一旦全て退場させる
+                _characterLocationManager.ResetAllCharacter();
+            }
+            
             if (_timeManager != null)
             {
                 // TODO: 演出の処理を追加する
