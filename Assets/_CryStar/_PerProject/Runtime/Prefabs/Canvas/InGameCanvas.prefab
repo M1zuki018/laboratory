@@ -471,6 +471,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _background: {fileID: 6304030789179288042}
   _areaText: {fileID: 1772225610144407834}
+  _afternoonPath: Assets/AssetStoreTools/Images/Background/BG_Lab_Afternoon.png
+  _eveningPath: Assets/AssetStoreTools/Images/Background/BG_Lab_Evening.png
+  _nightPath: Assets/AssetStoreTools/Images/Background/BG_Lab_Night.png
 --- !u!1 &2385143284822355744
 GameObject:
   m_ObjectHideFlags: 0
