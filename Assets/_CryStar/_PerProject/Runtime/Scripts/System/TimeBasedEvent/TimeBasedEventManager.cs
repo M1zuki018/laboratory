@@ -12,16 +12,6 @@ namespace CryStar.PerProject
     /// </summary>
     public class TimeBasedEventManager : CustomBehaviour
     {
-        /// <summary>
-        /// 朝の時間に設定されたときに呼び出されるコールバック
-        /// </summary>
-        public event Action OnDayTimeChanged;
-        
-        /// <summary>
-        /// 夜の時間に設定されたときに呼び出されるコールバック
-        /// </summary>
-        public event Action OnNightTimeChanged;
-        
         private TimeManager _timeManager; // 時間帯を管理するクラス
         private InGameManager _inGameManager;
 
@@ -110,17 +100,6 @@ namespace CryStar.PerProject
                 _inGameManager.PlayStory(8, SetNextDayTime);
             }
         }
-
-        /// <summary>
-        /// 1日の時間の進行を始める処理
-        /// </summary>
-        private void DayStart()
-        {
-            if (_timeManager != null)
-            {
-                _timeManager.SetPause(false);
-            }
-        }
         
         /// <summary>
         /// 夜の時間にする時の処理
@@ -144,7 +123,21 @@ namespace CryStar.PerProject
             {
                 // TODO: 演出の処理を追加する
                 _timeManager.SetNextDayTime();
+                
+                // 朝のイベントを実行
                 ExecuteMorningEvent();
+            }
+        }
+        
+        /// <summary>
+        /// 1日の時間の進行を始める
+        /// </summary>
+        private void DayStart()
+        {
+            if (_timeManager != null)
+            {
+                // ポーズ状態解除
+                _timeManager.SetPause(false);
             }
         }
     }
