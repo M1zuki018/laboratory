@@ -26,6 +26,8 @@ namespace CryStar.PerProject
         /// 1日終了を通知するコールバック
         /// </summary>
         public event Action OnFinishDay;
+        
+        public event Action<TimeZoneType> OnTimeZoneChanged;
 
         /// <summary>
         /// ポーズ状態が切り替わったときのコールバック
@@ -36,8 +38,10 @@ namespace CryStar.PerProject
         [SerializeField, Comment("早送り時の更新インターバル")]　private float _fastUpdateInterval = 1f;
         
         private const int WORK_START_HOUR = 9; // 1日の行動開始時間
+        private const int AFTERNOON_HOUR = 11; // 昼の時間帯の切り替わりタイミング
+        private const int EVENING_HOUR = 16; // 夕方の時間帯の切り替わりタイミング
         private const int WORK_END_HOUR = 18; // 夕方の行動終了時間
-        private const int EVENING_BREAK_END_HOUR = 20; // 夜の行動開始時間
+        private const int NIGHT_HOUR = 20; // 夜の行動開始時間
         private const int DAY_END_HOUR = 23; // 夜の行動終了時間
         private const int MINUTES_PER_UPDATE = 10; // 1更新ごとに進む時間。単位は分
         
@@ -149,7 +153,7 @@ namespace CryStar.PerProject
         public void SkipToNextEvent()
         {
             _currentTime = GetNextEventTime();
-            CheckTimeEvents();
+            CheckTimeZone();
         }
         
         /// <summary>
@@ -157,7 +161,8 @@ namespace CryStar.PerProject
         /// </summary>
         public void SetNightTime()
         {
-            _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, EVENING_BREAK_END_HOUR, 0, 0);
+            _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, NIGHT_HOUR, 0, 0);
+            SetTimeZone(TimeZoneType.Night);
         }
 
         /// <summary>
@@ -166,10 +171,20 @@ namespace CryStar.PerProject
         public void SetNextDayTime()
         {
             _currentTime = _currentTime.Date.AddDays(1).AddHours(WORK_START_HOUR);
+            SetTimeZone(TimeZoneType.Morning);
         }
 
         #region Private Methods
 
+        /// <summary>
+        /// 時間帯を設定する
+        /// </summary>
+        private void SetTimeZone(TimeZoneType timeZoneType)
+        {
+            _currentTimeZone = timeZoneType;
+            OnTimeZoneChanged?.Invoke(timeZoneType);
+        }
+        
         /// <summary>
         /// 時間を更新
         /// </summary>
@@ -178,15 +193,30 @@ namespace CryStar.PerProject
             _currentTime = _currentTime.AddMinutes(MINUTES_PER_UPDATE);
             OnTimeChanged?.Invoke();
             
-            CheckTimeEvents();
+            CheckTimeZone();
         }
 
         /// <summary>
-        /// 夕方のイベント、1日の終了を確認
+        /// 時間帯の切り替わりを確認
         /// </summary>
-        private void CheckTimeEvents()
+        private void CheckTimeZone()
         {
-            if (_currentTime.Hour == WORK_END_HOUR && _currentTime.Minute == 0)
+            if (_currentTime.Minute != 0)
+            {
+                return;
+            }
+            
+            if (_currentTime.Hour == AFTERNOON_HOUR)
+            {
+                // お昼の時間帯
+                SetTimeZone(TimeZoneType.Afternoon);
+            }
+            if (_currentTime.Hour == EVENING_HOUR)
+            {
+                // 夕方の時間帯
+                SetTimeZone(TimeZoneType.Evening);
+            }
+            else if (_currentTime.Hour == WORK_END_HOUR)
             {
                 // コールバック呼び出しと、時間停止
                 OnEveningEvent?.Invoke();
