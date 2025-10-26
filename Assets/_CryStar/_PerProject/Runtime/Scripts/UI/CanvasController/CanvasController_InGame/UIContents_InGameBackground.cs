@@ -1,4 +1,3 @@
-using System;
 using CryStar.Core;
 using CryStar.PerProject;
 using CryStar.Utility;
@@ -17,22 +16,24 @@ namespace iCON.UI
         
         [Header("デバッグ用")] 
         [SerializeField] private Text _areaText;
+        [SerializeField] private string _afternoonPath;
+        [SerializeField] private string _eveningPath;
+        [SerializeField] private string _nightPath;
         
         private AreaManager _areaManager; // 場所の管理
         private TimeManager _timeManager; // ゲーム内時間を管理
-        private TimeBasedEventManager _timeBasedEventManager; // 時間帯を切り替えるイベントの管理
         
         public override async UniTask OnBind()
         {
             await base.OnBind();
             InitializeTimeManager();
-            InitializeTimeBasedEvent();
             await InitializeBackground();
         }
 
         private void OnDestroy()
         {
             if(_areaManager != null) _areaManager.OnChangedArea -= ChangeBackgroundSprite;
+            if (_timeManager != null) _timeManager.OnTimeZoneChanged -= HandleTimeZoneChanged;
         }
 
         #region Initialize
@@ -65,23 +66,10 @@ namespace iCON.UI
             {
                 LogUtility.Error($"[{nameof(CanvasController_InGame)}]{nameof(_timeManager)} が取得できませんでした");
             }
-        }
-        
-        private void InitializeTimeBasedEvent()
-        {
-            _timeBasedEventManager = ServiceLocator.GetLocal<TimeBasedEventManager>();
-            if (_timeBasedEventManager == null)
-            {
-                LogUtility.Error($"[{nameof(CanvasController_InGame)}]{nameof(_timeBasedEventManager)} が取得できませんでした");
-                return;
-            }
             
-            // NOTE: TimeManagerからではなく、演出を挟んだタイミングで時間帯が変更されるため、
-            // EventManagerのイベントのコールバックを購読して変更ができるようにする
-            // TODO: 
-            // _timeBasedEventManager
+            _timeManager.OnTimeZoneChanged += HandleTimeZoneChanged;
         }
-        
+
         #endregion
         
         /// <summary>
@@ -89,9 +77,37 @@ namespace iCON.UI
         /// </summary>
         private void ChangeBackgroundSprite(AreaType areaType)
         {
-            // TODO: 変更処理を作成。TImeManagerの時間帯も参考にする
+            // TODO: 変更処理を作成。マスターデータからパスをとってくる
             
             _areaText.text = areaType.ToString(); // TODO: デバッグ用　後で消す
+        }
+        
+        /// <summary>
+        /// 時間帯変更イベントに合わせて背景素材を変更する
+        /// </summary>
+        private void HandleTimeZoneChanged(TimeZoneType newTimeZone)
+        {
+            if (_timeManager != null)
+            {
+                var path = newTimeZone switch
+                {
+                    TimeZoneType.Morning => _afternoonPath,
+                    TimeZoneType.Afternoon => _afternoonPath,
+                    TimeZoneType.Evening => _eveningPath,
+                    TimeZoneType.Night => _nightPath,
+                    _ => _afternoonPath,
+                };
+                
+                ChangeBackground(path);
+            }
+        }
+
+        /// <summary>
+        /// 背景を変更する
+        /// </summary>
+        private void ChangeBackground(string path)
+        {
+            _background.ChangeSpriteAsync(path).Forget();
         }
     }
 }
