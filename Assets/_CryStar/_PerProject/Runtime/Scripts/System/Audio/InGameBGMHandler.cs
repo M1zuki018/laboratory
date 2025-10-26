@@ -1,3 +1,4 @@
+using CryStar.Attribute;
 using CryStar.Core;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
@@ -11,46 +12,60 @@ namespace CryStar.PerProject
     /// </summary>
     public class InGameBGMHandler : CustomBehaviour
     {
-        [SerializeField] private string _path;
-        private AreaManager _areaManager;
+        [SerializeField] private float _fadeTime = 0.5f;
+        [SerializeField, ExpandableSO] private InGameBGMPathSO _pathSO;
+        private TimeManager _timeManager;
 
         #region Life cycle
 
         public override async UniTask OnBind()
         {
             await base.OnBind();
-            _areaManager = ServiceLocator.GetLocal<AreaManager>();
-            if (_areaManager == null)
+            _timeManager = ServiceLocator.GetLocal<TimeManager>();
+            if (_timeManager == null)
             {
-                LogUtility.Error($"[{typeof(InGameBGMHandler)}] AreaManagerがローカルサービスから取得できませんでした");
+                LogUtility.Error($"[{typeof(InGameBGMHandler)}] {typeof(TimeManager)}がローカルサービスから取得できませんでした");
                 return;
             }
 
-            _areaManager.OnChangedArea += HandleChangeArea;
+            _timeManager.OnTimeZoneChanged += HandleChangeArea;
+            
+            if (_pathSO == null)
+            {
+                LogUtility.Error($"[{typeof(InGameBGMHandler)}] BGMパスのスクリプタブルオブジェクトが設定されていません");
+            }
         }
 
         private void Start()
         {
             // TODO: 仮
-            AudioManager.Instance.PlayBGM(_path).Forget();
+            AudioManager.Instance.PlayBGMWithFadeIn(_pathSO.DaytimePath, _fadeTime).Forget();
         }
 
         private void OnDestroy()
         {
-            if (_areaManager != null)
+            if (_timeManager != null)
             {
-                _areaManager.OnChangedArea -= HandleChangeArea;
+                _timeManager.OnTimeZoneChanged += HandleChangeArea;
             }
         }
 
         #endregion
         
         /// <summary>
-        /// エリア変更時にBGMを変更する
+        /// 時間帯が変更されたときにBGMを変更する
         /// </summary>
-        private void HandleChangeArea(AreaType newArea)
+        private void HandleChangeArea(TimeZoneType newTimeZone)
         {
-            // TODO: マスタデータから検索
+            if (newTimeZone == TimeZoneType.Morning)
+            {
+                // 朝になった時に日中のBGMの再生を始める
+                AudioManager.Instance.CrossFadeBGM(_pathSO.DaytimePath, _fadeTime).Forget();
+            }
+            else if (newTimeZone == TimeZoneType.Night)
+            {
+                AudioManager.Instance.CrossFadeBGM(_pathSO.NightPath, _fadeTime).Forget();
+            }
         }
     }
 }
