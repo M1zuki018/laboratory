@@ -27,6 +27,9 @@ namespace CryStar.PerProject
         /// </summary>
         public event Action OnFinishDay;
         
+        /// <summary>
+        /// 時間帯変更のコールバック
+        /// </summary>
         public event Action<TimeZoneType> OnTimeZoneChanged;
 
         /// <summary>
