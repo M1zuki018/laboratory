@@ -51,7 +51,7 @@ namespace CryStar.PerProject
         private float _updateInterval; // 更新インターバル
         private float _elapsedTime; // 経過時間
         private DateTime _currentTime; // 現在の時間
-        private TimeZoneType _currentTimeZone; // 現在のタイムゾーン
+        private TimeZoneType _currentTimeZone = TimeZoneType.Morning; // 現在のタイムゾーン
 
         private bool _isPausing = true; // ポーズ中 最初は朝のイベントから始まるため、ポーズ状態にしておく
         private bool _isFastUpdate; // 早送り中
@@ -144,8 +144,15 @@ namespace CryStar.PerProject
         /// </summary>
         public void ToggleFastForward()
         {
-            _isFastUpdate = !_isFastUpdate;
-            
+            SetFastForward(!_isFastUpdate);
+        }
+
+        /// <summary>
+        /// 早送り状態を設定する
+        /// </summary>
+        public void SetFastForward(bool isFastForward)
+        {
+            _isFastUpdate = isFastForward;
             // 早送り中であれば早送り中の更新インターバルを、早送り中でなければデフォルトの更新インターバルを適用
             _updateInterval = _isFastUpdate ? _fastUpdateInterval : _defalutUpdateInterval;
         }
@@ -166,6 +173,9 @@ namespace CryStar.PerProject
         {
             _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, NIGHT_HOUR, 0, 0);
             SetTimeZone(TimeZoneType.Night);
+            
+            // 夜の時間を始める前に強制的に早送りを解除する
+            SetFastForward(false);
         }
 
         /// <summary>
@@ -184,6 +194,12 @@ namespace CryStar.PerProject
         /// </summary>
         private void SetTimeZone(TimeZoneType timeZoneType)
         {
+            if (timeZoneType == _currentTimeZone)
+            {
+                // 時間帯が変わらなければイベントを発火したくないのでreturn
+                return;
+            }
+            
             _currentTimeZone = timeZoneType;
             OnTimeZoneChanged?.Invoke(timeZoneType);
         }
