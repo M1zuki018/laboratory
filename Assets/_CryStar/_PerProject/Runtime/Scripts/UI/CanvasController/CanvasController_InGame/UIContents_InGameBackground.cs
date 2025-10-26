@@ -1,4 +1,5 @@
 using CryStar.Core;
+using CryStar.MasterData;
 using CryStar.PerProject;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
@@ -16,9 +17,6 @@ namespace iCON.UI
         
         [Header("デバッグ用")] 
         [SerializeField] private Text _areaText;
-        [SerializeField] private string _afternoonPath;
-        [SerializeField] private string _eveningPath;
-        [SerializeField] private string _nightPath;
         
         private AreaManager _areaManager; // 場所の管理
         private TimeManager _timeManager; // ゲーム内時間を管理
@@ -27,7 +25,13 @@ namespace iCON.UI
         {
             await base.OnBind();
             InitializeTimeManager();
-            await InitializeBackground();
+        }
+        
+        private async void Start()
+        {
+            // 背景マスタのプリロード
+            await MasterDataManager.Instance.GetAsync<MasterInGameBackground>();
+            InitializeBackground();
         }
 
         private void OnDestroy()
@@ -41,7 +45,7 @@ namespace iCON.UI
         /// <summary>
         /// 背景の初期化を行う
         /// </summary>
-        private async UniTask InitializeBackground()
+        private void InitializeBackground()
         {
             _areaManager = ServiceLocator.GetLocal<AreaManager>();
             if (_areaManager == null)
@@ -52,11 +56,13 @@ namespace iCON.UI
                 return;
             }
             
-            // TODO: _backgroundの画像を適切なエリアの画像に差し替える処理
-            _areaText.text = _areaManager.CurrentArea.ToString(); // TODO: デバッグ用　後で消す
-            
             // エリア移動時に背景素材を変更できるようにメソッドを登録
             _areaManager.OnChangedArea += ChangeBackgroundSprite;
+            
+            var path = MasterInGameBackground.GetBackgroundPath((int)_areaManager.CurrentArea, _timeManager.CurrentTimeZone);
+            ChangeBackground(path);
+            
+            _areaText.text = MasterInGameBackground.GetDisplayName((int)_areaManager.CurrentArea); // TODO: デバッグ用　とる
         }
 
         private void InitializeTimeManager()
@@ -77,9 +83,10 @@ namespace iCON.UI
         /// </summary>
         private void ChangeBackgroundSprite(AreaType areaType)
         {
-            // TODO: 変更処理を作成。マスターデータからパスをとってくる
+            var path = MasterInGameBackground.GetBackgroundPath((int)areaType, _timeManager.CurrentTimeZone);
+            ChangeBackground(path);
             
-            _areaText.text = areaType.ToString(); // TODO: デバッグ用　後で消す
+            _areaText.text = MasterInGameBackground.GetDisplayName((int)areaType); // TODO: デバッグ用　とる
         }
         
         /// <summary>
@@ -89,15 +96,7 @@ namespace iCON.UI
         {
             if (_timeManager != null)
             {
-                var path = newTimeZone switch
-                {
-                    TimeZoneType.Morning => _afternoonPath,
-                    TimeZoneType.Afternoon => _afternoonPath,
-                    TimeZoneType.Evening => _eveningPath,
-                    TimeZoneType.Night => _nightPath,
-                    _ => _afternoonPath,
-                };
-                
+                var path = MasterInGameBackground.GetBackgroundPath((int)_areaManager.CurrentArea, newTimeZone);
                 ChangeBackground(path);
             }
         }

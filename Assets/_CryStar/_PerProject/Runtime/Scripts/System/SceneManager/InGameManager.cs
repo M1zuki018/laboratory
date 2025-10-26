@@ -3,6 +3,7 @@ using CryStar.Attribute;
 using CryStar.Core;
 using CryStar.Core.Enums;
 using CryStar.Data.Scene;
+using CryStar.MasterData;
 using CryStar.Story.Orchestrators;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
@@ -27,12 +28,14 @@ namespace iCON.System
         public override async UniTask OnAwake()
         {
             await base.OnAwake();
+            
             ServiceLocator.Register(this, ServiceType.Local);
         }
         
         public override async UniTask OnStart()
         {
             await base.OnStart();
+            await MasterDataManager.Instance.PreloadAsync(typeof(MasterInGameBackground));
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyOrchestrator.gameObject.SetActive(false);
