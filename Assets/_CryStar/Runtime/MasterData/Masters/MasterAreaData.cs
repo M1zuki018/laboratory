@@ -11,7 +11,7 @@ namespace CryStar.MasterData
     public class MasterAreaData : AddressableJsonMasterBase<int, AreaDataInfo>
     {
         public override LoadPriority Priority => LoadPriority.Cached;
-        protected override string AddressOrLabel => MasterDataAddresses.AreaData;
+        protected override string AddressOrLabel => MasterDataAddresses.AREA_DATA;
         protected override void LoadFromJson(string json)
         {
             var backgroundJson = JsonUtility.FromJson<AreaDataJson>(json);
