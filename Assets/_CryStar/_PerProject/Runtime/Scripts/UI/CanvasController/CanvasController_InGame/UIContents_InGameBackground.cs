@@ -19,10 +19,14 @@ namespace iCON.UI
         [SerializeField] private Text _areaText;
         
         private AreaManager _areaManager; // 場所の管理
-
+        private TimeManager _timeManager; // ゲーム内時間を管理
+        private TimeBasedEventManager _timeBasedEventManager; // 時間帯を切り替えるイベントの管理
+        
         public override async UniTask OnBind()
         {
             await base.OnBind();
+            InitializeTimeManager();
+            InitializeTimeBasedEvent();
             await InitializeBackground();
         }
 
@@ -31,6 +35,8 @@ namespace iCON.UI
             if(_areaManager != null) _areaManager.OnChangedArea -= ChangeBackgroundSprite;
         }
 
+        #region Initialize
+        
         /// <summary>
         /// 背景の初期化を行う
         /// </summary>
@@ -51,16 +57,41 @@ namespace iCON.UI
             // エリア移動時に背景素材を変更できるようにメソッドを登録
             _areaManager.OnChangedArea += ChangeBackgroundSprite;
         }
+
+        private void InitializeTimeManager()
+        {
+            _timeManager = ServiceLocator.GetLocal<TimeManager>();
+            if (_timeManager == null)
+            {
+                LogUtility.Error($"[{nameof(CanvasController_InGame)}]{nameof(_timeManager)} が取得できませんでした");
+            }
+        }
+        
+        private void InitializeTimeBasedEvent()
+        {
+            _timeBasedEventManager = ServiceLocator.GetLocal<TimeBasedEventManager>();
+            if (_timeBasedEventManager == null)
+            {
+                LogUtility.Error($"[{nameof(CanvasController_InGame)}]{nameof(_timeBasedEventManager)} が取得できませんでした");
+                return;
+            }
+            
+            // NOTE: TimeManagerからではなく、演出を挟んだタイミングで時間帯が変更されるため、
+            // EventManagerのイベントのコールバックを購読して変更ができるようにする
+            // TODO: 
+            // _timeBasedEventManager
+        }
+        
+        #endregion
         
         /// <summary>
         /// 移動したエリアに合わせて背景素材を変更する
         /// </summary>
         private void ChangeBackgroundSprite(AreaType areaType)
         {
-            // TODO: 変更処理を作成
+            // TODO: 変更処理を作成。TImeManagerの時間帯も参考にする
             
             _areaText.text = areaType.ToString(); // TODO: デバッグ用　後で消す
         }
     }
-
 }

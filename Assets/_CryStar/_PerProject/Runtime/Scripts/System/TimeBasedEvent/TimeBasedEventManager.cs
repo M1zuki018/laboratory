@@ -1,5 +1,6 @@
 using System;
 using CryStar.Core;
+using CryStar.Core.Enums;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using iCON.System;
@@ -11,11 +12,27 @@ namespace CryStar.PerProject
     /// </summary>
     public class TimeBasedEventManager : CustomBehaviour
     {
+        /// <summary>
+        /// 朝の時間に設定されたときに呼び出されるコールバック
+        /// </summary>
+        public event Action OnDayTimeChanged;
+        
+        /// <summary>
+        /// 夜の時間に設定されたときに呼び出されるコールバック
+        /// </summary>
+        public event Action OnNightTimeChanged;
+        
         private TimeManager _timeManager; // 時間帯を管理するクラス
         private InGameManager _inGameManager;
 
         #region Life cycle
 
+        public override async UniTask OnAwake()
+        {
+            await base.OnAwake();
+            ServiceLocator.Register(this, ServiceType.Local);
+        }
+        
         public override async UniTask OnBind()
         {
             await base.OnBind();
@@ -115,6 +132,7 @@ namespace CryStar.PerProject
                 // TODO: 切り替え演出やライティング変化などの処理を追加する
                 _timeManager.SetNightTime();
                 _timeManager.SetPause(false);
+                OnNightTimeChanged?.Invoke();
             }
         }
 
@@ -128,6 +146,7 @@ namespace CryStar.PerProject
                 // TODO: 演出の処理を追加する
                 _timeManager.SetNextDayTime();
                 ExecuteMorningEvent();
+                OnDayTimeChanged?.Invoke();
             }
         }
     }
