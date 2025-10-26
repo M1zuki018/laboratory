@@ -1,3 +1,4 @@
+using CryStar.MasterData;
 using CryStar.Story.Enums;
 
 namespace CryStar.Story.Data
@@ -109,17 +110,17 @@ namespace CryStar.Story.Data
         /// <summary>
         /// 表示名を取得（オーバーライドがあればそれを、なければマスターから表示名を取得）
         /// </summary>
-        public string DisplayName => HasOverrideDisplayName ? _overrideDisplayName : MasterStoryCharacter.GetCharacter(_speakerId)?.DisplayName ?? string.Empty;
+        public string DisplayName => HasOverrideDisplayName ? _overrideDisplayName : MasterCharacter.GetCharacterName(_speakerId)?? string.Empty;
 
         /// <summary>
         /// 表情差分のパス
         /// </summary>
-        public string FacialExpressionPath => MasterStoryCharacter.GetExpressionPath(_speakerId, _facialExpressionType) ?? string.Empty;
+        public string FacialExpressionPath => MasterCharacter.GetExpressionPath(_speakerId, _facialExpressionType) ?? string.Empty;
 
         /// <summary>
         /// キャラクターデータ
         /// </summary>
-        public CharacterData CharacterData => MasterStoryCharacter.GetCharacter(_speakerId);
+        public CharacterInfo CharacterData => MasterCharacter.GetCharacterInfo(_speakerId);
 
         /// <summary>
         /// コンストラクタ

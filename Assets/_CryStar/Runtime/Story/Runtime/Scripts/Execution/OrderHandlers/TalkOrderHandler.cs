@@ -18,7 +18,7 @@ namespace CryStar.Story.Execution
         {
             // テキストの上書きスピードが設定されていたらそのスピードを使用
             // 設定されていない場合は定数を使用する
-            var multiply = data.OverrideTextSpeed != 0 ? data.OverrideTextSpeed : data.CharacterData.TextSpeed;
+            var multiply = data.OverrideTextSpeed != 0 ? data.OverrideTextSpeed : data.CharacterData.textSpeed;
             
             // テキスト更新にかける時間を計算
             var duration = data.DialogText.Length * multiply;
