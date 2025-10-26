@@ -4,6 +4,7 @@ using CryStar.Core;
 using CryStar.Core.Enums;
 using CryStar.Data.Scene;
 using CryStar.MasterData;
+using CryStar.PerProject;
 using CryStar.Story.Orchestrators;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
@@ -25,11 +26,21 @@ namespace iCON.System
         [SerializeField]
         private PackSample_CanvasController_StorySelect _canvasController;
 
+        private TimeBasedEventManager _timeBasedEventManager; // 時間区切りのイベントを管理しているクラス
+        private SceneLoader _sceneLoader; // シーン遷移を管理しているクラス
+        
         public override async UniTask OnAwake()
         {
             await base.OnAwake();
             
             ServiceLocator.Register(this, ServiceType.Local);
+        }
+
+        public override async UniTask OnBind()
+        {
+            await base.OnBind();
+            _timeBasedEventManager = ServiceLocator.GetLocal<TimeBasedEventManager>();
+            _sceneLoader = ServiceLocator.GetGlobal<SceneLoader>();
         }
         
         public override async UniTask OnStart()
@@ -39,13 +50,16 @@ namespace iCON.System
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyOrchestrator.gameObject.SetActive(false);
+            
+            // 朝のイベントを開始する　TODO: 設計的な観点で、仮置き
+            _timeBasedEventManager.ExecuteMorningEvent();
         }
 
         private async void Update()
         {
             if (Input.GetKeyDown(KeyCode.F8))
             {
-                await ServiceLocator.GetGlobal<SceneLoader>().LoadSceneAsync(new SceneTransitionData(SceneType.Title));
+                await _sceneLoader.LoadSceneAsync(new SceneTransitionData(SceneType.Title));
             }
         }
         

@@ -65,7 +65,7 @@ namespace CryStar.PerProject
         /// <summary>
         /// 朝のイベントを実行する
         /// </summary>
-        private void ExecuteMorningEvent()
+        public void ExecuteMorningEvent()
         {
             if (_inGameManager != null)
             {

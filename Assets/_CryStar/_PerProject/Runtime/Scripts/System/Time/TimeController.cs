@@ -53,7 +53,7 @@ namespace CryStar.PerProject
         private DateTime _currentTime; // 現在の時間
         private TimeZoneType _currentTimeZone; // 現在のタイムゾーン
 
-        private bool _isPausing; // ポーズ中
+        private bool _isPausing = true; // ポーズ中 最初は朝のイベントから始まるため、ポーズ状態にしておく
         private bool _isFastUpdate; // 早送り中
         
         /// <summary>
