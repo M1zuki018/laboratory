@@ -132,7 +132,6 @@ namespace CryStar.PerProject
                 // TODO: 切り替え演出やライティング変化などの処理を追加する
                 _timeManager.SetNightTime();
                 _timeManager.SetPause(false);
-                OnNightTimeChanged?.Invoke();
             }
         }
 
@@ -146,7 +145,6 @@ namespace CryStar.PerProject
                 // TODO: 演出の処理を追加する
                 _timeManager.SetNextDayTime();
                 ExecuteMorningEvent();
-                OnDayTimeChanged?.Invoke();
             }
         }
     }
