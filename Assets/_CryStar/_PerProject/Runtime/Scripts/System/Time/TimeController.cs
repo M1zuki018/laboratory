@@ -44,6 +44,7 @@ namespace CryStar.PerProject
         private float _updateInterval; // 更新インターバル
         private float _elapsedTime; // 経過時間
         private DateTime _currentTime; // 現在の時間
+        private TimeZoneType _currentTimeZone; // 現在のタイムゾーン
 
         private bool _isPausing; // ポーズ中
         private bool _isFastUpdate; // 早送り中
@@ -77,6 +78,11 @@ namespace CryStar.PerProject
         /// 整形された文字列で日時と時刻を取得する
         /// </summary>
         public string GetTimeText => _currentTime.ToString("yyyy/MM/dd HH:mm");
+        
+        /// <summary>
+        /// 時間帯
+        /// </summary>
+        public TimeZoneType CurrentTimeZone => _currentTimeZone;
 
         #region Life cycle
 
