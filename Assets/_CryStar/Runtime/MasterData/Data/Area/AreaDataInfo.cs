@@ -1,10 +1,10 @@
 using System;
 
 /// <summary>
-/// MasterInGameBackground - インゲーム中の背景用のマスタ
+/// MasterAreaData - インゲーム中の背景用のマスタ
 /// </summary>
 [Serializable]
-public class InGameBackgroundInfo
+public class AreaDataInfo
 {
     public int id; // ID
     public string variableName; // 変数名

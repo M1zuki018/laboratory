@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// MasterInGameBackground
+/// MasterAreaData
 /// </summary>
 [Serializable]
-public class InGameBackgroundJson
+public class AreaDataJson
 {
     public string version;
-    public List<InGameBackgroundInfo> backgrounds;
+    public List<AreaDataInfo> areaDatas;
 }

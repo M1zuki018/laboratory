@@ -15,7 +15,7 @@ namespace CryStar.MasterData
         public const string CHARACTER_GROWTH = "MasterData/Cached/character_growth";
         public const string CHARACTER_BATTLE = "MasterData/Resident/character_battle";
         
-        public const string INGAME_BACKGROUND = "MasterData/Cached/ingame_background";
+        public const string AreaData = "MasterData/Cached/area_data";
         
         public const string ITEM = "MasterData/Cached/item_master";
         public const string STORY_CHAPTER_01 = "MasterData/OnDemand/story_texts/chapter01";

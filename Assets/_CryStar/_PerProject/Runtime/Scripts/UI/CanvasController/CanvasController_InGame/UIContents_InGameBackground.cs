@@ -30,7 +30,7 @@ namespace iCON.UI
         private async void Start()
         {
             // 背景マスタのプリロード
-            await MasterDataManager.Instance.GetAsync<MasterInGameBackground>();
+            await MasterDataManager.Instance.GetAsync<MasterAreaData>();
             InitializeBackground();
         }
 
@@ -59,10 +59,10 @@ namespace iCON.UI
             // エリア移動時に背景素材を変更できるようにメソッドを登録
             _areaManager.OnChangedArea += ChangeBackgroundSprite;
             
-            var path = MasterInGameBackground.GetBackgroundPath((int)_areaManager.CurrentArea, _timeManager.CurrentTimeZone);
+            var path = MasterAreaData.GetBackgroundPath((int)_areaManager.CurrentArea, _timeManager.CurrentTimeZone);
             ChangeBackground(path);
             
-            _areaText.text = MasterInGameBackground.GetDisplayName((int)_areaManager.CurrentArea); // TODO: デバッグ用　とる
+            _areaText.text = MasterAreaData.GetDisplayName((int)_areaManager.CurrentArea); // TODO: デバッグ用　とる
         }
 
         private void InitializeTimeManager()
@@ -83,10 +83,10 @@ namespace iCON.UI
         /// </summary>
         private void ChangeBackgroundSprite(AreaType areaType)
         {
-            var path = MasterInGameBackground.GetBackgroundPath((int)areaType, _timeManager.CurrentTimeZone);
+            var path = MasterAreaData.GetBackgroundPath((int)areaType, _timeManager.CurrentTimeZone);
             ChangeBackground(path);
             
-            _areaText.text = MasterInGameBackground.GetDisplayName((int)areaType); // TODO: デバッグ用　とる
+            _areaText.text = MasterAreaData.GetDisplayName((int)areaType); // TODO: デバッグ用　とる
         }
         
         /// <summary>
@@ -96,7 +96,7 @@ namespace iCON.UI
         {
             if (_timeManager != null)
             {
-                var path = MasterInGameBackground.GetBackgroundPath((int)_areaManager.CurrentArea, newTimeZone);
+                var path = MasterAreaData.GetBackgroundPath((int)_areaManager.CurrentArea, newTimeZone);
                 ChangeBackground(path);
             }
         }

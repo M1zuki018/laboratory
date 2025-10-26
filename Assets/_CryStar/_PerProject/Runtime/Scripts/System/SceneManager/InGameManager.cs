@@ -35,7 +35,7 @@ namespace iCON.System
         public override async UniTask OnStart()
         {
             await base.OnStart();
-            await MasterDataManager.Instance.PreloadAsync(typeof(MasterInGameBackground));
+            await MasterDataManager.Instance.PreloadAsync(typeof(MasterAreaData));
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyOrchestrator.gameObject.SetActive(false);
