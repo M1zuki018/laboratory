@@ -185,6 +185,9 @@ namespace CryStar.PerProject
         {
             _currentTime = _currentTime.Date.AddDays(1).AddHours(WORK_START_HOUR);
             SetTimeZone(TimeZoneType.Morning);
+            
+            // 朝の時間を始める前に強制的に早送りを解除する
+            SetFastForward(false);
         }
 
         #region Private Methods
