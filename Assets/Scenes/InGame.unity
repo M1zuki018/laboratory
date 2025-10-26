@@ -840,7 +840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85032b3a3369d3949a22a774dda601ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _path: Assets/AssetStoreTools/Sounds/BGM/BGM_Mayoi.mp3
+  _fadeTime: 0.5
+  _pathSO: {fileID: 11400000, guid: d3cef699aa756ac46a8982d0bfc1c867, type: 2}
 --- !u!114 &843337851
 MonoBehaviour:
   m_ObjectHideFlags: 0
