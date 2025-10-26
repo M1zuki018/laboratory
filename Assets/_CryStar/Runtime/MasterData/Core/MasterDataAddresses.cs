@@ -12,10 +12,11 @@ namespace CryStar.MasterData
         // Addresses
         public const string WORDING = "MasterData/Resident/wording";
         
+        public const string CHARACTER = "MasterData/Cached/character";
         public const string CHARACTER_GROWTH = "MasterData/Cached/character_growth";
         public const string CHARACTER_BATTLE = "MasterData/Resident/character_battle";
         
-        public const string AreaData = "MasterData/Cached/area_data";
+        public const string AREA_DATA = "MasterData/Cached/area_data";
         
         public const string ITEM = "MasterData/Cached/item_master";
         public const string STORY_CHAPTER_01 = "MasterData/OnDemand/story_texts/chapter01";
