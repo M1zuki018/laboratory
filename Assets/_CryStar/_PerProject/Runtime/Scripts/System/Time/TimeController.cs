@@ -237,6 +237,8 @@ namespace CryStar.PerProject
             // 現在時刻が作業時間内であれば夕方イベントまで
             if (_currentTime.Hour < WORK_END_HOUR)
             {
+                // NOTE: 夕方の時間変更がスキップ可能性があるため呼び出しておく
+                SetTimeZone(TimeZoneType.Evening);
                 return new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, WORK_END_HOUR, 0, 0);
             }
         
