@@ -14,6 +14,7 @@ namespace CryStar.PerProject
     {
         [SerializeField] private float _fadeTime = 0.5f;
         [SerializeField, ExpandableSO] private InGameBGMPathSO _pathSO;
+        [SerializeField] private bool _debugMode = false;
         private TimeManager _timeManager;
 
         #region Life cycle
@@ -38,8 +39,10 @@ namespace CryStar.PerProject
 
         private void Start()
         {
-            // TODO: 仮
-            AudioManager.Instance.PlayBGMWithFadeIn(_pathSO.DaytimePath, _fadeTime).Forget();
+            if (_debugMode)
+            {
+                AudioManager.Instance.PlayBGMWithFadeIn(_pathSO.DaytimePath, _fadeTime).Forget();
+            }
         }
 
         private void OnDestroy()

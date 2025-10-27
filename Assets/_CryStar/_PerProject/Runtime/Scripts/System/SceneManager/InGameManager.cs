@@ -26,6 +26,9 @@ namespace iCON.System
         [SerializeField]
         private PackSample_CanvasController_StorySelect _canvasController;
 
+        [SerializeField] 
+        private bool _storySkip;
+        
         private TimeBasedEventManager _timeBasedEventManager; // 時間区切りのイベントを管理しているクラス
         private SceneLoader _sceneLoader; // シーン遷移を管理しているクラス
         
@@ -50,9 +53,16 @@ namespace iCON.System
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyOrchestrator.gameObject.SetActive(false);
-            
-            // 朝のイベントを開始する　TODO: 設計的な観点で、仮置き
-            _timeBasedEventManager.ExecuteMorningEvent();
+
+            if (_storySkip)
+            {
+                // ストーリースキップの場合は即座に朝のイベントを開始する　TODO: 設計的な観点で、仮置き
+                _timeBasedEventManager.ExecuteMorningEvent();
+            }
+            else
+            {
+                PlayStory(1, () => _timeBasedEventManager.ExecuteMorningEvent());
+            }
         }
 
         private async void Update()

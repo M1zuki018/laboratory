@@ -83,6 +83,7 @@ namespace CryStar.PerProject
         {
             if (_inGameManager != null)
             {
+                _timeManager.SetNextDayTime();
                 // 朝のシナリオを再生。再生後にポーズ状態を解除する
                 // TODO: ID取得を行えるように
                 _inGameManager.PlayStory(9, DayStart);
@@ -148,8 +149,6 @@ namespace CryStar.PerProject
             if (_timeManager != null)
             {
                 // TODO: 演出の処理を追加する
-                _timeManager.SetNextDayTime();
-                
                 // 朝のイベントを実行
                 ExecuteMorningEvent();
             }
