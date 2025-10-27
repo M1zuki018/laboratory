@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using CryStar.Core;
 using CryStar.Core.Enums;
+using CryStar.MasterData;
 using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using iCON.System;
@@ -80,17 +82,28 @@ namespace CryStar.PerProject
         /// </summary>
         public void PlayAreaTalk(LocationType location, Action endAction = null)
         {
-            // TODO: クリックされた位置情報とそのキャラクターを元に適切なストーリーIDをマスタデータから検索して流すようにする
             // クリックされた位置にいるキャラクター情報を取得
             var characterId = _locationManager.GetCharacterId(location);
             
-            // 現在のキャラクターの配置状況を取得　TODO: 仮
-            var currentStateId = _locationManager.GetCurrentStateID();
+            // 現在のキャラクターの配置状況をキーに変換
+            var locationKey = _locationManager.GetCurrentStateID();
+            var storyIdList = MasterAreaTalk.GetLocationKeyBaseTalkData(locationKey);
+            if (storyIdList == null)
+            {
+                // 位置情報から複数人の会話データが見つからなかった場合は、キャラクター単体の会話データベースを検索する
+                storyIdList = MasterAreaTalk.GetCharacterIDBaseTalkData(characterId.ToString());
+            }
             
-            // TODO: 仮
-            ExecuteAreaTalk(characterId + 2, endAction);
+            if (storyIdList != null)
+            {
+                var storyId = LotteryAreaTalk(storyIdList);
+                ExecuteAreaTalk(storyId, endAction);
+                return;
+            }
+            
+            LogUtility.Warning($"{typeof(AreaTalkManager)} ストーリーが見つかりませんでした ロケーションキー: {locationKey}, キャラクターID: {characterId}");
         }
-
+        
         /// <summary>
         /// 会話イベント実行
         /// </summary>
@@ -125,9 +138,16 @@ namespace CryStar.PerProject
             if (newArea == AreaType.HallwayEntrance)
             {
                 // 廊下に移動した場合に会話を発生させたい
-                // TODO: 仮の処理
                 ExecuteAreaTalk(2);
             }
+        }
+        
+        /// <summary>
+        /// ストーリーIDリストからランダムに一つのストーリーIDを抽選する
+        /// </summary>
+        private int LotteryAreaTalk(IReadOnlyList<int> storyIdList)
+        {
+            return storyIdList[UnityEngine.Random.Range(0, storyIdList.Count - 1)];
         }
     }
 }
