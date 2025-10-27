@@ -17,12 +17,12 @@ public static class MasterStoryScene
     {
         {
             1, new StorySceneData(1, "OP", 1, 1, 1, 
-                "A3:O69", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A3:O253", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
         {
             2, new StorySceneData(2, "エリア会話1", 2, 1, 1, 
-                "A79:O83", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A143:O149", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
         {
@@ -51,7 +51,7 @@ public static class MasterStoryScene
             )
         },{
             9, new StorySceneData(9, "朝の会話", 3, 1, 1, 
-                "A130:O138", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A202:O210", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
     };

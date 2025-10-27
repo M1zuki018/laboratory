@@ -147,6 +147,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 545929980768059745, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2228097571423758403, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -424,6 +428,10 @@ PrefabInstance:
     - target: {fileID: 6468932585991293504, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
+      propertyPath: _storySkip
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _canvasController
@@ -846,6 +854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fadeTime: 0.5
   _pathSO: {fileID: 11400000, guid: d3cef699aa756ac46a8982d0bfc1c867, type: 2}
+  _debugMode: 0
 --- !u!114 &843337851
 MonoBehaviour:
   m_ObjectHideFlags: 0
