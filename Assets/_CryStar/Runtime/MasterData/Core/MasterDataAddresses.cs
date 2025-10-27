@@ -21,6 +21,8 @@ namespace CryStar.MasterData
         public const string ITEM = "MasterData/Cached/item_master";
         public const string STORY_CHAPTER_01 = "MasterData/OnDemand/story_texts/chapter01";
         
+        public const string AREA_TALK_001 = "MasterData/Cached/area_talk";
+        
         public const string BATTLE_001_ENEMY = "MasterData/Scenes/Battle_001/enemy_master";
     }
 }
