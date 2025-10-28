@@ -21,8 +21,8 @@ public static class MasterStoryScene
             )
         },
         {
-            2, new StorySceneData(2, "エリア会話1", 2, 1, 1, 
-                "A143:O149", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            2, new StorySceneData(2, "廊下", 2, 1, 1, 
+                "A263:O266", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
         {
@@ -31,27 +31,27 @@ public static class MasterStoryScene
             )
         },{
             4, new StorySceneData(4, "フィルウとの会話", 3, 1, 1, 
-                "A84:O92", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A268:O276", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
             5, new StorySceneData(5, "イーシャとの会話", 3, 1, 1, 
-                "A94:O100", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A278:O284", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
             6, new StorySceneData(6, "ユールとの会話", 3, 1, 1, 
-                "A102:O112", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A286:O296", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
             7, new StorySceneData(7, "夕方の会話", 3, 1, 1, 
-                "A114:O120", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A298:O304", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
             8, new StorySceneData(8, "夜の会話", 3, 1, 1, 
-                "A122:O128", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A306:O312", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
             9, new StorySceneData(9, "朝の会話", 3, 1, 1, 
-                "A202:O210", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+                "A314:O322", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
     };
