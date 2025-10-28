@@ -190,6 +190,15 @@ namespace CryStar.PerProject
             SetFastForward(false);
         }
 
+        /// <summary>
+        /// 引数で時間と分を指定して設定する
+        /// </summary>
+        public void SetTime(int hour, int minute)
+        {
+            _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, hour, minute, 0);
+            CheckTimeZone();
+        }
+
         #region Private Methods
 
         /// <summary>

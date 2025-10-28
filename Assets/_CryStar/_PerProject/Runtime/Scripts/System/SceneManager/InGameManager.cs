@@ -31,6 +31,10 @@ namespace iCON.System
         
         private TimeBasedEventManager _timeBasedEventManager; // 時間区切りのイベントを管理しているクラス
         private SceneLoader _sceneLoader; // シーン遷移を管理しているクラス
+        private TimeManager _timeManager; // 時間帯を管理するクラス
+        
+        public TimeBasedEventManager TimeBasedEventManager => _timeBasedEventManager;
+        public TimeManager TimeManager => _timeManager;
         
         public override async UniTask OnAwake()
         {
@@ -43,6 +47,7 @@ namespace iCON.System
         {
             await base.OnBind();
             _timeBasedEventManager = ServiceLocator.GetLocal<TimeBasedEventManager>();
+            _timeManager = ServiceLocator.GetLocal<TimeManager>();
             _sceneLoader = ServiceLocator.GetGlobal<SceneLoader>();
         }
         
