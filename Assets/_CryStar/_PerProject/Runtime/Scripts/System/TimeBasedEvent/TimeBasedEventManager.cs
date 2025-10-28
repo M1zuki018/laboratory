@@ -99,7 +99,7 @@ namespace CryStar.PerProject
             {
                 // 夕方のシナリオを再生。再生後に夜の時間を始める
                 // TODO: ID取得を行えるように
-                _inGameManager.PlayStory(7, SetNightTime);
+                //_inGameManager.PlayStory(7, SetNightTime);
             }
         }
 
@@ -112,7 +112,7 @@ namespace CryStar.PerProject
             {
                 // 夕方のシナリオを再生。再生後に夜の時間を始める
                 // TODO: ID取得を行えるように
-                _inGameManager.PlayStory(8, SetNextDayTime);
+                //_inGameManager.PlayStory(8);
             }
         }
         
@@ -150,7 +150,7 @@ namespace CryStar.PerProject
             {
                 // TODO: 演出の処理を追加する
                 // 朝のイベントを実行
-                ExecuteMorningEvent();
+                //ExecuteMorningEvent();
             }
         }
         
