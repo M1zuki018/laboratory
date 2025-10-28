@@ -17,6 +17,8 @@ namespace CryStar.Story.Orchestrators
     /// </summary>
     public class StoryOrchestrator : CustomBehaviour, IStoryOrchestrator
     {
+        public event Action<int> OnFinishedPlay;
+        
         /// <summary>
         /// ストーリー再生用クラス
         /// </summary>
@@ -64,7 +66,11 @@ namespace CryStar.Story.Orchestrators
             );
             
             // ストーリー再生
-            _player.PlayStory(storySceneData, orders, endAction);
+            _player.PlayStory(storySceneData, orders, () =>
+            {
+                endAction?.Invoke();
+                OnFinishedPlay?.Invoke(sceneId);
+            });
         }
         
         /// <summary>
