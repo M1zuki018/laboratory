@@ -5,6 +5,7 @@ using CryStar.Core.Enums;
 using CryStar.Data.Scene;
 using CryStar.MasterData;
 using CryStar.PerProject;
+using CryStar.PerProject.GameProgression;
 using CryStar.Story.Orchestrators;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
@@ -19,6 +20,8 @@ namespace iCON.System
     /// </summary>
     public class InGameManager : CustomBehaviour
     {
+        public event Action<int> OnFinishedPlay;
+        
         [Header("ストーリー機能の設定")]
         [SerializeField, HighlightIfNull]
         private StoryOrchestrator _storyOrchestrator;
@@ -32,15 +35,22 @@ namespace iCON.System
         private TimeBasedEventManager _timeBasedEventManager; // 時間区切りのイベントを管理しているクラス
         private SceneLoader _sceneLoader; // シーン遷移を管理しているクラス
         private TimeManager _timeManager; // 時間帯を管理するクラス
+        private CharacterLocationManager _locationManager; // キャラクター配置を管理しているクラス
+        
+        private GP_Route1 _gameProgression;
         
         public TimeBasedEventManager TimeBasedEventManager => _timeBasedEventManager;
         public TimeManager TimeManager => _timeManager;
+        public CharacterLocationManager LocationManager => _locationManager;
+        
+        #region Life cycle
         
         public override async UniTask OnAwake()
         {
             await base.OnAwake();
             
             ServiceLocator.Register(this, ServiceType.Local);
+            _gameProgression = new GP_Route1(this);
         }
 
         public override async UniTask OnBind()
@@ -49,6 +59,7 @@ namespace iCON.System
             _timeBasedEventManager = ServiceLocator.GetLocal<TimeBasedEventManager>();
             _timeManager = ServiceLocator.GetLocal<TimeManager>();
             _sceneLoader = ServiceLocator.GetGlobal<SceneLoader>();
+            _locationManager = ServiceLocator.GetLocal<CharacterLocationManager>();
         }
         
         public override async UniTask OnStart()
@@ -58,6 +69,7 @@ namespace iCON.System
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyOrchestrator.gameObject.SetActive(false);
+            _storyOrchestrator.OnFinishedPlay += OnFinishedPlay;
 
             if (_storySkip)
             {
@@ -66,7 +78,7 @@ namespace iCON.System
             }
             else
             {
-                PlayStory(1, () => _timeBasedEventManager.ExecuteMorningEvent());
+                await _gameProgression.Play();
             }
         }
 
@@ -77,6 +89,13 @@ namespace iCON.System
                 await _sceneLoader.LoadSceneAsync(new SceneTransitionData(SceneType.Title));
             }
         }
+
+        private void OnDestroy()
+        {
+            _storyOrchestrator.OnFinishedPlay -= OnFinishedPlay;
+        }
+        
+        #endregion
         
         public void PlayStory(int storyId, Action endAction = null)
         {
