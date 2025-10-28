@@ -20,6 +20,9 @@ namespace CryStar.PerProject
         private AreaManager _areaManager; // プレイヤーの現在位置を管理するクラス
         private InGameManager _inGameManager;
         
+        // デバッグ用
+        private int _index;
+        
         #region Life cycle
 
         public override async UniTask OnAwake()
@@ -96,8 +99,16 @@ namespace CryStar.PerProject
             
             if (storyIdList != null)
             {
-                var storyId = LotteryAreaTalk(storyIdList);
-                ExecuteAreaTalk(storyId, endAction);
+                
+                var storyId = 0;
+                if (characterId == 1)
+                {
+                    storyId = _index;
+                    _index++;
+                }
+                
+                //var storyId = LotteryAreaTalk(storyIdList);
+                ExecuteAreaTalk(storyIdList[storyId], endAction);
                 return;
             }
             
