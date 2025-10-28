@@ -113,12 +113,52 @@ namespace CryStar.PerProject
                 ExitCharacter(character);
             }
         }
+
+        /// <summary>
+        /// 強制的にキャラクターを配置する
+        /// </summary>
+        public void ForcedCharacterEntry(LocationType targetLocation, CharacterType character, bool useResetAll = false)
+        {
+            if (!useResetAll)
+            {
+                // もし指定の場所に既にキャラクターが存在していた場合
+                if (_locationDataList[(int)targetLocation].HasCharacter)
+                {
+                    // 退場処理
+                    var targetData = _locationDataList[(int)targetLocation];
+                    targetData.AssignCharacter(CharacterType.None, _updateCount);
+                    OnMoveCharacter?.Invoke(targetData.LocationType, CharacterType.None);
+                }
+
+                // 他の場所に指定のキャラクターが配置されていた場合、退場させる
+                ExitCharacter(character);
+            }
+            else
+            {
+                ResetAllCharacter();
+            }
+            
+            // アサイン
+            _locationDataList[(int)targetLocation].AssignCharacter(character, _updateCount);
+                
+            // 最終移動時間を更新
+            _lastMovement[character] = _updateCount;
+                
+            // 決定した場所・キャラクターでコールバック呼び出し
+            OnMoveCharacter?.Invoke(targetLocation, character);
+        }
         
         /// <summary>
         /// 抽選
         /// </summary>
         private void Lottery()
         {
+            if (_timeManager.ForcedPause)
+            {
+                // ストーリー中の強制ポーズ中であれば抽選・位置更新を行わずにreturn
+                return;
+            }
+            
             _updateCount++;
             
             for (int i = 1; i < 5; i++)
