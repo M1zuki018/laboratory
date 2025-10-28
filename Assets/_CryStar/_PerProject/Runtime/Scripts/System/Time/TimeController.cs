@@ -16,7 +16,7 @@ namespace CryStar.PerProject
         /// 時間が変わったタイミングで呼び出されるコールバック
         /// </summary>
         public event Action OnTimeChanged;
-
+        
         /// <summary>
         /// 昼食イベントのコールバック
         /// </summary>
@@ -190,6 +190,7 @@ namespace CryStar.PerProject
         {
             _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, NIGHT_HOUR, 0, 0);
             SetTimeZone(TimeZoneType.Night);
+            OnTimeChanged?.Invoke();
             
             // 夜の時間を始める前に強制的に早送りを解除する
             SetFastForward(false);
@@ -202,6 +203,7 @@ namespace CryStar.PerProject
         {
             _currentTime = _currentTime.Date.AddDays(1).AddHours(WORK_START_HOUR);
             SetTimeZone(TimeZoneType.Morning);
+            OnTimeChanged?.Invoke();
             
             // 朝の時間を始める前に強制的に早送りを解除する
             SetFastForward(false);
