@@ -16,6 +16,11 @@ namespace CryStar.PerProject
         /// 時間が変わったタイミングで呼び出されるコールバック
         /// </summary>
         public event Action OnTimeChanged;
+
+        /// <summary>
+        /// 昼食イベントのコールバック
+        /// </summary>
+        public event Action OnLunchTimeEvent;
         
         /// <summary>
         /// 夕方のイベントのコールバック
@@ -42,6 +47,7 @@ namespace CryStar.PerProject
         
         private const int WORK_START_HOUR = 9; // 1日の行動開始時間
         private const int AFTERNOON_HOUR = 11; // 昼の時間帯の切り替わりタイミング
+        private const int LUNCH_HOUR = 13; // 昼食イベントのタイミング
         private const int EVENING_HOUR = 16; // 夕方の時間帯の切り替わりタイミング
         private const int WORK_END_HOUR = 18; // 夕方の行動終了時間
         private const int NIGHT_HOUR = 20; // 夜の行動開始時間
@@ -53,6 +59,7 @@ namespace CryStar.PerProject
         private DateTime _currentTime; // 現在の時間
         private TimeZoneType _currentTimeZone = TimeZoneType.Morning; // 現在のタイムゾーン
 
+        private bool _forcedPause; // ストーリー中の強制ポーズフラグ 
         private bool _isPausing = true; // ポーズ中 最初は朝のイベントから始まるため、ポーズ状態にしておく
         private bool _isFastUpdate; // 早送り中
         
@@ -90,6 +97,8 @@ namespace CryStar.PerProject
         /// 時間帯
         /// </summary>
         public TimeZoneType CurrentTimeZone => _currentTimeZone;
+        
+        public bool ForcedPause => _forcedPause;
 
         #region Life cycle
 
@@ -105,7 +114,7 @@ namespace CryStar.PerProject
         
         private void Update()
         {
-            if (_isPausing)
+            if (_forcedPause || _isPausing)
             {
                 // ポーズ中であればreturn
                 return;
@@ -115,13 +124,21 @@ namespace CryStar.PerProject
             
             if (_elapsedTime >= _updateInterval)
             {
-                AdvanceTime();
+                AdvanceTime(MINUTES_PER_UPDATE);
                 _elapsedTime = 0;
             }
         }
 
         #endregion
 
+        /// <summary>
+        /// ストーリー中に使用する強制ポーズ
+        /// </summary>
+        public void SetForcedPause(bool isPause)
+        {
+            _forcedPause = isPause;
+        }
+        
         /// <summary>
         /// ポーズ状態をトグルする
         /// </summary>
@@ -196,6 +213,19 @@ namespace CryStar.PerProject
         public void SetTime(int hour, int minute)
         {
             _currentTime = new DateTime(_currentTime.Year, _currentTime.Month, _currentTime.Day, hour, minute, 0);
+            OnTimeChanged?.Invoke();
+            
+            CheckTimeZone();
+        }
+
+        /// <summary>
+        /// 時間を交信する
+        /// </summary>
+        public void AdvanceTime(int minute)
+        {
+            _currentTime = _currentTime.AddMinutes(minute);
+            OnTimeChanged?.Invoke();
+            
             CheckTimeZone();
         }
 
@@ -215,17 +245,6 @@ namespace CryStar.PerProject
             _currentTimeZone = timeZoneType;
             OnTimeZoneChanged?.Invoke(timeZoneType);
         }
-        
-        /// <summary>
-        /// 時間を更新
-        /// </summary>
-        private void AdvanceTime()
-        {
-            _currentTime = _currentTime.AddMinutes(MINUTES_PER_UPDATE);
-            OnTimeChanged?.Invoke();
-            
-            CheckTimeZone();
-        }
 
         /// <summary>
         /// 時間帯の切り替わりを確認
@@ -242,7 +261,13 @@ namespace CryStar.PerProject
                 // お昼の時間帯
                 SetTimeZone(TimeZoneType.Afternoon);
             }
-            if (_currentTime.Hour == EVENING_HOUR)
+            else if (_currentTime.Hour == LUNCH_HOUR)
+            {
+                // コールバック呼び出しと、時間停止
+                OnLunchTimeEvent?.Invoke();
+                SetPause(true);
+            }
+            else if (_currentTime.Hour == EVENING_HOUR)
             {
                 // 夕方の時間帯
                 SetTimeZone(TimeZoneType.Evening);
