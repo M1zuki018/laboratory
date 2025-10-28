@@ -58,12 +58,60 @@ public static class MasterStoryScene
                 "A316:O324", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
-            11, new StorySceneData(11, "Loop1-Episode11", 3, 1, 1, 
-                "A316:O324", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            11, new StorySceneData(11, "Loop1-Episode11-LunchEvent", 3, 1, 1, 
+                "A326:O352", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
-            12, new StorySceneData(12, "Loop1-Episode12", 3, 1, 1, 
-                "A316:O324", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            12, new StorySceneData(12, "Loop1-Episode12-LunchEvent", 3, 1, 1, 
+                "A354:O365", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            13, new StorySceneData(13, "Loop1-Episode13", 3, 1, 1, 
+                "A367:O378", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            14, new StorySceneData(14, "Loop1-Episode14", 3, 1, 1, 
+                "A388:O397", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            15, new StorySceneData(15, "Loop1-Episode15", 3, 1, 1, 
+                "A417:O431", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            16, new StorySceneData(16, "Loop1-Episode16", 3, 1, 1, 
+                "A433:O450", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            17, new StorySceneData(17, "Loop1-Episode17", 3, 1, 1, 
+                "A452:O462", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            18, new StorySceneData(18, "Loop1-Episode18", 3, 1, 1, 
+                "A464:O482", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            19, new StorySceneData(19, "Loop1-Episode19", 3, 1, 1, 
+                "A484:O499", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            20, new StorySceneData(20, "Loop1-Episode20", 3, 1, 1, 
+                "A501:O520", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            21, new StorySceneData(21, "Loop1-Episode21", 3, 1, 1, 
+                "A522:O531", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            1001, new StorySceneData(1001, "Common-MorningEvent", 3, 1, 1, 
+                "A406:O415", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            1002, new StorySceneData(1002, "Common-EveningEvent", 3, 1, 1, 
+                "A380:O386", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            1003, new StorySceneData(1003, "Common-FinishDayEvent", 3, 1, 1, 
+                "A399:O404", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },
     };
