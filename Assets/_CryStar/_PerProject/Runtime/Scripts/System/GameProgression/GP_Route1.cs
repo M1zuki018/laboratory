@@ -104,8 +104,8 @@ namespace CryStar.PerProject.GameProgression
                     HandelDay2MorningEvent(); // 朝のイベントを実行する
                     break;
                 case 1001:
+                    _inGameManager.TimeManager.SetTime(8, 50);
                     _inGameManager.PlayStory(15);
-                    AdvanceTime(50); // 50分進めて8:50
                     break;
                 case 15:
                     _inGameManager.PlayStory(16);
@@ -134,26 +134,34 @@ namespace CryStar.PerProject.GameProgression
                 case 21:
                     AdvanceTime(10); // 10分進めて12:10
                     _inGameManager.TimeManager.SetForcedPause(false); // 強制更新停止解除
+                    _inGameManager.TimeManager.SetPause(false);
                     break;
                 case 22: // 昼食イベント
+                    _inGameManager.TimeManager.SetForcedPause(false);
+                    _inGameManager.TimeManager.SetPause(false);
                     AdvanceTime(90);
                     break;
                 case 23: // 夕方のイベント
                     _inGameManager.TimeManager.SetNightTime(); // 夜に変更
+                    _inGameManager.TimeManager.SetForcedPause(false);
+                    _inGameManager.TimeManager.SetPause(false);
                     break;
                 case 24: // 夜のイベント
                     _inGameManager.TimeManager.SetForcedPause(true); // 強制更新停止
-                    _inGameManager.TimeManager.SetNextDayTime(); // 翌朝に日付をセット
-                    _inGameManager.TimeManager.SetTime(4, 50); // 時刻設定 4:50
                     _inGameManager.PlayStory(25);
                     break;
                 case 25:
-                    AdvanceTime(10); // 5:00
+                    _inGameManager.TimeManager.SetNextDayTime(); // 翌朝に日付をセット
+                    _inGameManager.TimeManager.SetTime(4, 50); // 時刻設定 4:50
                     _inGameManager.PlayStory(26);
                     break;
                 case 26:
-                    _inGameManager.TimeManager.SetTime(8, 0); // 時刻設定 8:00
+                    AdvanceTime(10); // 5:00
                     _inGameManager.PlayStory(27);
+                    break;
+                case 27:
+                    _inGameManager.TimeManager.SetTime(8, 0); // 時刻設定 8:00
+                    _inGameManager.PlayStory(28);
                     break;
             }
         }

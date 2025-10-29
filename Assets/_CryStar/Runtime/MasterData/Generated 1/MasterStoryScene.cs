@@ -102,6 +102,34 @@ public static class MasterStoryScene
                 "A522:O531", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
         },{
+            22, new StorySceneData(22, "Loop1-Episode21", 3, 1, 1, 
+                "A533:O547", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            23, new StorySceneData(23, "Loop1-Episode21", 3, 1, 1, 
+                "A549:O590", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            24, new StorySceneData(24, "Loop1-Episode21", 3, 1, 1, 
+                "A592:O673", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            25, new StorySceneData(25, "Loop1-Episode21", 3, 1, 1, 
+                "A675:O742", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            26, new StorySceneData(26, "Loop1-Episode21", 3, 1, 1, 
+                "A744:O758", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            27, new StorySceneData(27, "Loop1-Episode21", 3, 1, 1, 
+                "A760:O782", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
+            28, new StorySceneData(28, "Loop1-Episode21", 3, 1, 1, 
+                "A784:O814", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
+        },{
             1001, new StorySceneData(1001, "Common-MorningEvent", 3, 1, 1, 
                 "A406:O415", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
             )
